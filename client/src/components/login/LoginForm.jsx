@@ -1,11 +1,5 @@
 import { Link } from "react-router-dom";
-import {
-  ArrowLeft,
-  Circle,
-  EyeIcon,
-  EyeOffIcon,
-  Loader2Icon,
-} from "lucide-react";
+import { ArrowLeft, EyeIcon, EyeOffIcon, Loader2Icon } from "lucide-react";
 import { useReducer, useState } from "react";
 import LoginSection from "./LoginSection";
 

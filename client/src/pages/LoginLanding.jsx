@@ -8,13 +8,11 @@ const portalOptions = [
     title: "Admin Portal",
     subtitle:
       "Manage employees, departments, and payroll and system configuration.",
-    iconName: "SheidIcon",
   },
   {
     to: "/login/employee",
     title: "Employee Portal",
     subtitle: "View your profile, track your attendance and access payslips.",
-    iconName: "UserIcon",
   },
 ];
 
@@ -22,7 +20,7 @@ const LoginLanding = () => {
   return (
     <div className="flex min-h-screen ">
       <LoginSection />
-      <div className="flex flex-1 flex-col px-16 md:px-24 xl:px-36 justify-center gap-12 lg:pb-24 ">
+      <div className="flex flex-1 flex-col px-16 md:px-24 xl:px-36 justify-center gap-12 lg:pb-24">
         <div className="space-y-3">
           <h2 className="text-4xl">Welcome</h2>
           <p className="text-secondary text-xl">

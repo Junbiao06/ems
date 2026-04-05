@@ -18,7 +18,11 @@
   /* 强调 */
   --color-accent: var(--accent);
   --color-border: var(--border);
+  /* 警告 */
+  --color-warning: var(--warning);
+  --color-warning-accent: var(--warning-accent);
 
+  /* 字体 */
   --font-playwrite: "Playwrite NZ Basic", sans-serif;
 }
 
@@ -32,6 +36,8 @@
   --surface-secondary: oklch(0.4893 0.0617 82.11);
   --accent: oklch(0.269 0 0);
   --border: oklch(0.7119 0 0);
+  --warning: oklch(0.72 0.1475 35);
+  --warning-accent: oklch(0.428 0.2577 29.23);
 }
 
 @layer base {
