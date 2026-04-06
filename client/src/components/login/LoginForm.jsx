@@ -110,8 +110,8 @@ const LoginForm = ({ title, subtitle }) => {
               disabled={loading}
             >
               {loading ? (
-                <p className="flex justify-center items-center gap-2">
-                  <Loader2Icon className="animate-spin text-secondary" />
+                <p className="flex justify-center items-center gap-3">
+                  <div className="w-6 h-6 border-3 border-border border-t-primary rounded-full animate-spin" />
                   <p>Processing...</p>
                 </p>
               ) : (

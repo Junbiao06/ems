@@ -29,16 +29,12 @@ const Sidebar = () => {
     setMobileOpen(false);
   }, [pathname]);
 
-  const role = "" | "EMPLOYEE";
+  const role = "ADMIN";
   const navItems = [
     { name: "Dashboard", href: "/dashboard", icon: LayoutGridIcon },
-    role === "ADMIN"
-      ? {
-          name: "Employees",
-          href: "/employees",
-          icon: UserIcon,
-        }
-      : { name: "Attendance", href: "/attendance", icon: Calendar },
+    ...(role === "ADMIN"
+      ? [{ name: "Employees", href: "/employees", icon: UserIcon }]
+      : [{ name: "Attendance", href: "/attendance", icon: Calendar }]),
     { name: "Leave", href: "/leave", icon: FileTextIcon },
     { name: "Payslips", href: "/payslips", icon: DollarSign },
     { name: "Settings", href: "/settings", icon: Settings },
@@ -55,7 +51,7 @@ const Sidebar = () => {
         <UserIcon size={32} />
         <div className="flex flex-col">
           <p className="text-lg font-semibold">Employee MS</p>
-          <p className="text-surface-secondary text-sm">Manage System</p>
+          <p className="text-surface-secondary text-sm">Management System</p>
         </div>
         <button onClick={() => setMobileOpen(false)} className="lg:hidden">
           <XIcon />
@@ -72,7 +68,7 @@ const Sidebar = () => {
             <div className="">
               <p className="tracking-wide text-lg">{username}</p>
               <p className="text-surface-secondary text-sm">
-                {role === "ADMIN" ? "Administrator" : "Employee"}
+                {role === "ADMIN" ? "Admin" : "Employee"}
               </p>
             </div>
           </div>
@@ -114,29 +110,31 @@ const Sidebar = () => {
 
   return (
     <>
-      <button
-        className="fixed lg:hidden top-0 left-0 "
-        onClick={() => setMobileOpen(true)}
-      >
-        <Menu />
-      </button>
+      <div className="z-50">
+        <button
+          className="fixed lg:hidden top-0 left-0"
+          onClick={() => setMobileOpen(true)}
+        >
+          <Menu />
+        </button>
 
-      {mobileOpen && (
-        <div
-          className="fixed lg:hidden top-0 left-0 w-full h-screen bg-gray-900 opacity-50"
-          onClick={() => setMobileOpen(false)}
-        ></div>
-      )}
+        {mobileOpen && (
+          <div
+            className="fixed lg:hidden top-0 left-0 w-full h-screen bg-gray-900 opacity-50"
+            onClick={() => setMobileOpen(false)}
+          ></div>
+        )}
 
-      <aside className="hidden lg:flex flex-col h-full w-64 bg-surface">
-        {sidebarContent}
-      </aside>
+        <aside className="hidden lg:flex flex-col h-full w-64 bg-surface">
+          {sidebarContent}
+        </aside>
 
-      <aside
-        className={`lg:hidden fixed top-0 left-0 w-72 h-screen bg-surface ${mobileOpen ? "translate-x-0" : "-translate-x-full"}`}
-      >
-        {sidebarContent}
-      </aside>
+        <aside
+          className={`lg:hidden fixed top-0 left-0 w-72 h-full bg-surface  ${mobileOpen ? "translate-x-0" : "-translate-x-full"}`}
+        >
+          {sidebarContent}
+        </aside>
+      </div>
     </>
   );
 };
