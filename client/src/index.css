@@ -41,11 +41,8 @@
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground border-border;
     font-family: "Outfit", "Inter";
   }
 }
@@ -155,7 +152,7 @@
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 0px;
 }
 ::-webkit-scrollbar-track {
   @apply bg-transparent;
