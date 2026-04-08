@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
-import { dummyEmployeeDashboardData } from "../assets/assets";
-import Loading from "../components/dashboard/Loading";
+import {
+  dummyAdminDashboardData,
+  dummyEmployeeDashboardData,
+} from "../assets/assets";
+import Loading from "../components/ui/Loading";
 import AdminDashboard from "../components/dashboard/AdminDashboard";
 import EmployeeDashboard from "../components/dashboard/EmployeeDashboard";
 
@@ -14,20 +17,20 @@ const Dashboard = () => {
     setData(dummyEmployeeDashboardData);
     setTimeout(() => {
       setLoading(false);
-    }, 300);
+    }, 1000);
   }, []);
 
   if (loading) return <Loading />;
   if (!data) return <p>Fail to load dashboard</p>;
 
   return (
-    <div className="p-8">
+    <>
       {role === "ADMIN" ? (
-        <AdminDashboard data={data} />
+        <AdminDashboard data={dummyAdminDashboardData} />
       ) : (
         <EmployeeDashboard data={data} />
       )}
-    </div>
+    </>
   );
 };
 

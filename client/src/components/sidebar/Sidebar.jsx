@@ -112,7 +112,7 @@ const Sidebar = () => {
     <>
       <div className="z-50">
         <button
-          className="fixed lg:hidden top-0 left-0"
+          className="fixed lg:hidden top-4 left-4 w-12 h-12 rounded-full bg-primary flex items-center justify-center border border-border"
           onClick={() => setMobileOpen(true)}
         >
           <Menu />
@@ -122,15 +122,21 @@ const Sidebar = () => {
           <div
             className="fixed lg:hidden top-0 left-0 w-full h-screen bg-gray-900 opacity-50"
             onClick={() => setMobileOpen(false)}
-          ></div>
+          />
         )}
 
-        <aside className="hidden lg:flex flex-col h-full w-64 bg-surface">
+        {/* <aside className="hidden lg:flex flex-col h-full w-64 bg-surface">
           {sidebarContent}
         </aside>
 
         <aside
           className={`lg:hidden fixed top-0 left-0 w-72 h-full bg-surface  ${mobileOpen ? "translate-x-0" : "-translate-x-full"}`}
+        >
+          {sidebarContent}
+        </aside> */}
+
+        <aside
+          className={`h-full w-64 bg-surface transform transition-transform duration-200 ${mobileOpen ? "translate-x-0" : "-translate-x-full"} fixed lg:static lg:translate-x-0 flex flex-col gap-2`}
         >
           {sidebarContent}
         </aside>

@@ -38,8 +38,8 @@ const AdminDashboard = ({ data }) => {
   return (
     <div className="animate-fade-in space-y-12">
       <div className="space-y-1">
-        <h1 className="text-3xl font-playwrite flex items-baseline gap-2">
-          Dashboard{" "}
+        <h1 className="text-3xl flex items-baseline gap-2">
+          Dashboard
           <p className="text-sm px-2 rounded-full bg-surface">admin</p>
         </h1>
         <div className="text-secondary">
@@ -47,7 +47,7 @@ const AdminDashboard = ({ data }) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
         {stat.map((item, index) => (
           <div
             className="flex items-center justify-between gap-4 rounded-2xl p-6 relative bg-primary transition-all hover:-translate-y-2 duration-200 group overflow-hidden"

@@ -36,9 +36,7 @@ const EmployeeDashboard = ({ data }) => {
   return (
     <div className="animate-fade-in space-y-12">
       <div className="space-y-1">
-        <h1 className="text-3xl font-playwrite">
-          Welcome, {employee?.firstName}!
-        </h1>
+        <h1 className="text-3xl">Welcome, {employee?.firstName}!</h1>
         <div className="text-secondary">
           {employee?.position} - {employee?.department || "No Department"}
         </div>
