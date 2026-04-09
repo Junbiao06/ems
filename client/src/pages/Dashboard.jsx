@@ -11,7 +11,7 @@ const Dashboard = () => {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
 
-  const role = "ADMIN";
+  const role = "EMPLOYEE" || "ADMIN";
 
   useEffect(() => {
     setData(dummyEmployeeDashboardData);
