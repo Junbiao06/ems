@@ -15,7 +15,7 @@ const AttendanceHistory = ({ history }) => {
       <h3 className="text-xl font-semibold px-6 py-4">Recent Activity</h3>
       <div className="rounded-4xl overflow-hidden">
         <table className="w-full pt-6">
-          <thead className="bg-primary ">
+          <thead className="bg-primary">
             <tr className="">
               {th.map((item, index) => (
                 <th key={index} className="px-4 py-6">
@@ -34,7 +34,7 @@ const AttendanceHistory = ({ history }) => {
             ) : (
               history.map((item, index) => (
                 <tr
-                  key={item._id}
+                  key={item._id || item.id}
                   className={`border-b border-secondary/20 hover:bg-primary-hover transition-colors text-center ${index % 2 === 0 ? "bg-primary/30" : "bg-primary/80"}`}
                 >
                   <td className="px-4 py-4 border-l border-secondary/20 border-dashed">

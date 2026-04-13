@@ -14,7 +14,7 @@ const Attendance = () => {
     setHistory(dummyAttendanceData);
     setTimeout(() => {
       setLoading(false);
-    }, 500);
+    }, 200);
   }, []);
 
   useEffect(() => {

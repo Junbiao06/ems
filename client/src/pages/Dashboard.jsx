@@ -17,7 +17,7 @@ const Dashboard = () => {
     setData(dummyEmployeeDashboardData);
     setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 200);
   }, []);
 
   if (loading) return <Loading />;
