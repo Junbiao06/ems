@@ -40,7 +40,7 @@ const LeaveHistory = ({ leaves, isAdmin, onUpdate }) => {
             ) : (
               leaves.map((item, index) => (
                 <tr
-                  key={item._id}
+                  key={item._id || item.id}
                   className={`border-b border-secondary/20 hover:bg-primary-hover transition-colors text-center ${index % 2 === 0 ? "bg-primary/30" : "bg-primary/80"}`}
                 >
                   {isAdmin && (
