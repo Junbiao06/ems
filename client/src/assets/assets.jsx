@@ -38,7 +38,7 @@ export const dummyProfileData = {
   firstName: "John",
   lastName: "Doe",
   email: "johndoe@example.com",
-  image: null,
+  image: null, 
 };
 
 export const dummyEmployeeData = [
