@@ -1,24 +1,70 @@
-# Logs
-logs
-*.log
+# ============================================
+# Client 前端特定忽略规则
+# ============================================
+
+# 依赖目录
+node_modules/
+.npm
+.pnpm-store
+
+# 包管理器锁文件（根据实际使用的包管理器取消注释）
+# package-lock.json  # 如果使用 npm
+# yarn.lock         # 如果使用 yarn
+# pnpm-lock.yaml    # 如果使用 pnpm
+
+# 构建输出
+dist/
+dist-ssr/
+*.tsbuildinfo
+
+# 本地开发文件
+*.local
+
+# 环境变量（前端特定）
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# 缓存
+.cache/
+.temp/
+
+# 测试覆盖率
+coverage/
+.nyc_output/
+
+# 日志文件（前端特定）
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# 编辑器文件（前端特定）
+.vscode/launch.json
+.vscode/tasks.json
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+# 项目特定
+# 根据你的前端框架添加特定规则
+# 例如 Vue.js:
+# .env.*.local
+# 例如 React:
+# .env.local
+# .env.development.local
+# .env.test.local
+# .env.production.local
+
+# 静态资源缓存
+*.webpack-hot-middleware-client.js
+*.hot-update.js
+*.hot-update.json
+
+# 开发服务器
+.history/
+.devserver/
+
+# 包管理器缓存
+.npm/
+.yarn/
+.pnpm-store/

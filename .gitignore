@@ -1,0 +1,72 @@
+# ============================================
+# 根目录通用忽略规则
+# ============================================
+
+# 操作系统文件
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 日志文件
+*.log
+logs/
+
+# 环境变量文件（通用）
+.env
+.env.*
+!.env.example
+
+# 编辑器/IDE 文件
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-*
+
+# 临时文件
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+
+# 系统文件
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 包管理器锁文件（根据项目使用的包管理器保留）
+# package-lock.json  # 如果使用 npm
+# yarn.lock         # 如果使用 yarn
+# pnpm-lock.yaml    # 如果使用 pnpm
+
+# 测试覆盖率
+coverage/
+.nyc_output/
+
+# 构建输出（通用）
+dist/
+build/
+out/
+.output/
+
+# 缓存目录
+.cache/
+.temp/
+
+# 文档生成
+docs/_build/
+docs/_site/
+
+# 杂项
+*.pid
+*.seed
+*.pid.lock
