@@ -38,6 +38,7 @@ const CreateEmployeeModal = ({
             onSuccess={() => {
               setEditEmployee(null);
               fetchEmployees();
+              setShowCreateModal(false);
             }}
             onCancel={() => setShowCreateModal(false)}
           />
