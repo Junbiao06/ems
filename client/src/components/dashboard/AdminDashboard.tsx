@@ -7,8 +7,9 @@ import {
   Users,
 } from "lucide-react";
 import { lazy, Suspense } from "react";
-import type { AdminDashboardData } from "../../types/dashboard";
+import type { AdminDashboardData } from "@/types/dashboard";
 import { AttendanceTable } from "./AttendanceTable";
+import { DashboardDate } from "./DashboardDate";
 import { StatCard } from "./StatCard";
 
 const AttendanceChart = lazy(async () => {
@@ -22,17 +23,10 @@ type AdminDashboardProps = {
 };
 
 export function AdminDashboard({ data }: AdminDashboardProps) {
-  const dateLabel = new Intl.DateTimeFormat("en-US", {
-    dateStyle: "full",
-    timeZone: "Asia/Shanghai",
-  }).format(new Date());
-
   return (
     <div className="mx-auto w-full max-w-7xl">
       <header>
-        <p className="text-xs font-extrabold tracking-widest text-text-subtle uppercase">
-          {dateLabel}
-        </p>
+        <DashboardDate />
         <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-text sm:text-4xl">
           Good morning, Avery.
         </h1>

@@ -1,4 +1,5 @@
 import type { LucideIcon } from "lucide-react";
+import { cn } from "../../utils/cn";
 
 type StatCardProps = {
   label: string;
@@ -30,7 +31,10 @@ export function StatCard({
           </p>
         </div>
         <span
-          className={`grid size-11 shrink-0 place-items-center rounded-xl ${toneClasses[tone]}`}
+          className={cn(
+            "grid size-11 shrink-0 place-items-center rounded-xl",
+            toneClasses[tone],
+          )}
         >
           <Icon className="size-5" aria-hidden="true" />
         </span>

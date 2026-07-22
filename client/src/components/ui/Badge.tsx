@@ -1,8 +1,9 @@
 import type { ReactNode } from "react";
+import { cn } from "../../utils/cn";
 
 type BadgeProps = {
   children: ReactNode;
-  tone?: "neutral" | "success" | "warning" | "info";
+  tone?: "neutral" | "success" | "warning" | "info" | "danger";
 };
 
 const toneClasses = {
@@ -10,12 +11,16 @@ const toneClasses = {
   success: "border-success-border bg-success-surface text-success-text",
   warning: "border-warning-border bg-warning-surface text-warning-text",
   info: "border-info-border bg-info-surface text-info-text",
+  danger: "border-danger-border bg-danger-surface text-danger-text",
 };
 
 export function Badge({ children, tone = "neutral" }: BadgeProps) {
   return (
     <span
-      className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-bold ${toneClasses[tone]}`}
+      className={cn(
+        "inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-bold",
+        toneClasses[tone],
+      )}
     >
       {children}
     </span>

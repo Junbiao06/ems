@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { cn } from "../../utils/cn";
 
 type NavigationItem = {
   label: string;
@@ -46,7 +47,7 @@ export function Sidebar() {
             label: "Employees",
             path: "/employees",
             icon: UserRound,
-            available: false,
+            available: true,
           },
         ]),
     { label: "Leave", path: "/leave", icon: FileText, available: false },
@@ -90,7 +91,10 @@ export function Sidebar() {
         {navigationItems.map((item) => {
           const Icon = item.icon;
           const isActive = pathname.startsWith(item.path);
-          const className = `flex w-full items-center justify-between p-4 text-left transition-colors hover:bg-sidebar-panel ${isActive ? "bg-sidebar-active" : ""}`;
+          const className = cn(
+            "flex w-full items-center justify-between p-4 text-left transition-colors hover:bg-sidebar-panel",
+            isActive && "bg-sidebar-active",
+          );
           const content = (
             <>
               <span className="flex items-center gap-4">
@@ -118,7 +122,11 @@ export function Sidebar() {
             <Link
               className={className}
               key={item.path}
-              to={employeeView ? "/dashboard?role=employee" : item.path}
+              to={
+                employeeView && item.path === "/dashboard"
+                  ? "/dashboard?role=employee"
+                  : item.path
+              }
               onClick={() => setMobileOpen(false)}
             >
               {content}
@@ -163,7 +171,10 @@ export function Sidebar() {
       ) : null}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col gap-2 bg-sidebar text-text transition-transform duration-200 lg:translate-x-0 ${mobileOpen ? "translate-x-0" : "-translate-x-full"}`}
+        className={cn(
+          "fixed inset-y-0 left-0 z-50 flex w-64 flex-col gap-2 bg-sidebar text-text transition-transform duration-200 lg:translate-x-0",
+          mobileOpen ? "translate-x-0" : "-translate-x-full",
+        )}
         aria-label="Main navigation"
       >
         {sidebarContent}

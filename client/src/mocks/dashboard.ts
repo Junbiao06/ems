@@ -1,7 +1,7 @@
 import type {
   AdminDashboardData,
   EmployeeDashboardData,
-} from "../types/dashboard";
+} from "@/types/dashboard";
 
 export const mockAdminDashboard: AdminDashboardData = {
   role: "ADMIN",

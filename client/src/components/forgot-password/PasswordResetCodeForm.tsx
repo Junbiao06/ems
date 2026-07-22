@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { VerificationCodeFormSchema } from "../../types/auth";
+import { VerificationCodeFormSchema } from "@/types/auth";
 import { OtpInput } from "../ui/OtpInput";
 
 type PasswordResetCodeFormProps = {

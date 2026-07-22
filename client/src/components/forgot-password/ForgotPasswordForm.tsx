@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import {
   PasswordResetRequestFormSchema,
   type PasswordResetRequestFormInput,
-} from "../../types/auth";
+} from "@/types/auth";
 
 type ForgotPasswordFormProps = {
   onContinue: () => void;

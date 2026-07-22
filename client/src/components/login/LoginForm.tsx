@@ -2,7 +2,7 @@ import { useState, type FormEvent } from "react";
 import { ArrowRight, Eye, EyeOff } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { authenticateMockUser, mockLoginAccounts } from "../../mocks/auth";
-import { LoginFormSchema, type LoginFormInput } from "../../types/auth";
+import { LoginFormSchema, type LoginFormInput } from "@/types/auth";
 
 export function LoginForm() {
   const navigate = useNavigate();

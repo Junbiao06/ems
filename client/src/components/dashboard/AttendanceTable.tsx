@@ -1,4 +1,4 @@
-import type { AttendanceTrendItem } from "../../types/dashboard";
+import type { AttendanceTrendItem } from "@/types/dashboard";
 
 type AttendanceTableProps = {
   data: AttendanceTrendItem[];

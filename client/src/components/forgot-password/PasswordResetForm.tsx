@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowRight, Eye, EyeOff } from "lucide-react";
 import {
   ResetPasswordFormSchema,
   type ResetPasswordFormInput,
-} from "../../types/auth";
+} from "@/types/auth";
 
 type PasswordResetFormProps = {
   onBack: () => void;

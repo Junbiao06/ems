@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowRight, Eye, EyeOff } from "lucide-react";
 import {
   CompleteRegistrationFormSchema,
   type CompleteRegistrationFormInput,
-} from "../../types/auth";
+} from "@/types/auth";
 
 type RegistrationPasswordFormProps = {
   onBack: () => void;

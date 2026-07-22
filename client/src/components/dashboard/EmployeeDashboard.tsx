@@ -5,8 +5,9 @@ import {
   FileText,
   LogIn,
 } from "lucide-react";
-import type { EmployeeDashboardData } from "../../types/dashboard";
+import type { EmployeeDashboardData } from "@/types/dashboard";
 import { Badge } from "../ui/Badge";
+import { DashboardDate } from "./DashboardDate";
 import { StatCard } from "./StatCard";
 
 type EmployeeDashboardProps = {
@@ -30,9 +31,7 @@ export function EmployeeDashboard({ data }: EmployeeDashboardProps) {
   return (
     <div className="mx-auto w-full max-w-7xl">
       <header>
-        <p className="text-xs font-extrabold tracking-widest text-text-subtle uppercase">
-          Personal dashboard
-        </p>
+        <DashboardDate />
         <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-text sm:text-4xl">
           Welcome back, {data.employee.fullName}.
         </h1>

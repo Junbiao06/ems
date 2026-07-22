@@ -8,7 +8,7 @@ import * as echarts from "echarts/core";
 import type { EChartsCoreOption } from "echarts/core";
 import { SVGRenderer } from "echarts/renderers";
 import { useEffect, useRef } from "react";
-import type { AttendanceTrendItem } from "../../types/dashboard";
+import type { AttendanceTrendItem } from "@/types/dashboard";
 
 echarts.use([
   BarChart,

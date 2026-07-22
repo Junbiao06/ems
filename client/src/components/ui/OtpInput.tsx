@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { cn } from "../../utils/cn";
 
 type OtpInputProps = {
   id: string;
@@ -44,17 +45,15 @@ export function OtpInput({
       <div className="grid grid-cols-6 gap-2" aria-hidden="true">
         {digits.map((digit, index) => {
           const active = focused && index === activeIndex;
-          const stateClass = invalid
-            ? "border-danger-border bg-danger-surface"
-            : active
-              ? "border-brand-active ring-4 ring-brand/15"
-              : digit
-                ? "border-border-strong bg-canvas"
-                : "border-border bg-surface";
-
           return (
             <span
-              className={`grid h-12 min-w-0 place-items-center rounded-lg border text-xl font-extrabold text-text transition ${stateClass}`}
+              className={cn(
+                "grid h-12 min-w-0 place-items-center rounded-lg border text-xl font-extrabold text-text transition",
+                invalid && "border-danger-border bg-danger-surface",
+                !invalid && active && "border-brand-active ring-4 ring-brand/15",
+                !invalid && !active && digit && "border-border-strong bg-canvas",
+                !invalid && !active && !digit && "border-border bg-surface",
+              )}
               key={index}
             >
               {digit}

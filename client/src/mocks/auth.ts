@@ -1,4 +1,4 @@
-import type { LoginFormData } from "../types/auth";
+import type { LoginFormData } from "@/types/auth";
 
 export type MockAuthUser = {
   id: string;
