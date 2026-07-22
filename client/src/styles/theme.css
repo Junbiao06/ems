@@ -1,0 +1,62 @@
+:root {
+  color-scheme: light;
+
+  --ui-canvas: oklch(0.985 0.012 95);
+  --ui-surface: oklch(1 0 0);
+  --ui-surface-muted: oklch(0.96 0.012 95);
+  --ui-surface-raised: oklch(0.995 0.004 95);
+
+  --ui-text: oklch(0.2 0.015 80);
+  --ui-text-muted: oklch(0.47 0.02 80);
+  --ui-text-subtle: oklch(0.58 0.018 80);
+  --ui-border: oklch(0.86 0.018 85);
+  --ui-border-strong: oklch(0.72 0.025 85);
+
+  --ui-brand: oklch(0.82 0.15 82);
+  --ui-brand-hover: oklch(0.76 0.16 78);
+  --ui-brand-active: oklch(0.7 0.16 75);
+  --ui-on-brand: oklch(0.18 0.02 80);
+  --ui-focus: oklch(0.57 0.2 250);
+
+  --ui-success-surface: oklch(0.95 0.05 145);
+  --ui-success-border: oklch(0.78 0.1 145);
+  --ui-success-text: oklch(0.38 0.12 145);
+  --ui-warning-surface: oklch(0.96 0.06 85);
+  --ui-warning-border: oklch(0.8 0.12 75);
+  --ui-warning-text: oklch(0.4 0.13 60);
+  --ui-danger-surface: oklch(0.95 0.04 25);
+  --ui-danger-border: oklch(0.8 0.1 25);
+  --ui-danger-text: oklch(0.45 0.18 25);
+  --ui-info-surface: oklch(0.95 0.04 245);
+  --ui-info-border: oklch(0.78 0.09 245);
+  --ui-info-text: oklch(0.42 0.15 245);
+}
+
+@theme inline {
+  --color-canvas: var(--ui-canvas);
+  --color-surface: var(--ui-surface);
+  --color-surface-muted: var(--ui-surface-muted);
+  --color-surface-raised: var(--ui-surface-raised);
+  --color-text: var(--ui-text);
+  --color-text-muted: var(--ui-text-muted);
+  --color-text-subtle: var(--ui-text-subtle);
+  --color-border: var(--ui-border);
+  --color-border-strong: var(--ui-border-strong);
+  --color-brand: var(--ui-brand);
+  --color-brand-hover: var(--ui-brand-hover);
+  --color-brand-active: var(--ui-brand-active);
+  --color-on-brand: var(--ui-on-brand);
+  --color-focus: var(--ui-focus);
+  --color-success-surface: var(--ui-success-surface);
+  --color-success-border: var(--ui-success-border);
+  --color-success-text: var(--ui-success-text);
+  --color-warning-surface: var(--ui-warning-surface);
+  --color-warning-border: var(--ui-warning-border);
+  --color-warning-text: var(--ui-warning-text);
+  --color-danger-surface: var(--ui-danger-surface);
+  --color-danger-border: var(--ui-danger-border);
+  --color-danger-text: var(--ui-danger-text);
+  --color-info-surface: var(--ui-info-surface);
+  --color-info-border: var(--ui-info-border);
+  --color-info-text: var(--ui-info-text);
+}
