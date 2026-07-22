@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { ArrowRight, Eye, EyeOff } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -67,23 +68,20 @@ export function LoginForm() {
               <input className="size-4 accent-brand" type="checkbox" name="remember" />
               <span>Remember me</span>
             </label>
-            <button
-              type="button"
+            <Link
               className="p-0 text-xs font-bold text-warning-text underline-offset-4 hover:underline"
+              to="/forgot-password"
             >
               Forgot password?
-            </button>
+            </Link>
           </div>
 
           <button
-            className="group flex h-12 w-full items-center justify-center gap-3 rounded-lg bg-text text-sm font-extrabold text-surface shadow-md transition hover:-translate-y-px hover:bg-text/85"
+            className="flex h-12 w-full items-center justify-center gap-3 rounded-lg bg-text text-sm font-extrabold text-surface shadow-md transition hover:-translate-y-px hover:bg-text/85"
             type="submit"
           >
             Sign in
-            <ArrowRight
-              className="size-5 transition group-hover:translate-x-1"
-              aria-hidden="true"
-            />
+            <ArrowRight className="size-5" aria-hidden="true" />
           </button>
         </form>
 
