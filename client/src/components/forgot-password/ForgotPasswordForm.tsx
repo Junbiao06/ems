@@ -1,14 +1,37 @@
-import { type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import {
+  PasswordResetRequestFormSchema,
+  type PasswordResetRequestFormInput,
+} from "../../types/auth";
 
 type ForgotPasswordFormProps = {
   onContinue: () => void;
 };
 
 export function ForgotPasswordForm({ onContinue }: ForgotPasswordFormProps) {
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof PasswordResetRequestFormInput, string>>
+  >({});
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const result = PasswordResetRequestFormSchema.safeParse({
+      email: formData.get("email"),
+    });
+
+    if (!result.success) {
+      const emailError = result.error.issues.find(
+        (issue) => issue.path[0] === "email",
+      );
+      setErrors({ email: emailError?.message ?? "Enter a valid email." });
+      return;
+    }
+
+    setErrors({});
     onContinue();
   };
 
@@ -33,17 +56,32 @@ export function ForgotPasswordForm({ onContinue }: ForgotPasswordFormProps) {
           Enter your work email and we will send you a verification code.
         </p>
 
-        <form className="mt-8 grid min-w-0 gap-5 lg:mt-9" onSubmit={handleSubmit}>
+        <form
+          className="mt-8 grid min-w-0 gap-5 lg:mt-9"
+          noValidate
+          onSubmit={handleSubmit}
+        >
           <label className="grid min-w-0 gap-2 text-sm font-bold text-text">
             <span>Work email</span>
             <input
               className="h-12 min-w-0 w-full rounded-lg border border-border bg-surface px-4 text-sm font-normal text-text outline-none transition placeholder:text-text-subtle hover:border-border-strong focus:border-brand-active focus:ring-4 focus:ring-brand/15"
+              id="password-reset-email"
               type="email"
               name="email"
               autoComplete="email"
               placeholder="name@company.com"
-              required
+              aria-invalid={Boolean(errors.email)}
+              aria-describedby={errors.email ? "password-reset-email-error" : undefined}
+              onChange={() => setErrors({})}
             />
+            {errors.email ? (
+              <span
+                className="text-xs font-semibold text-danger-text"
+                id="password-reset-email-error"
+              >
+                {errors.email}
+              </span>
+            ) : null}
           </label>
 
           <button

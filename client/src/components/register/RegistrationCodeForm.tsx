@@ -1,5 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { VerificationCodeFormSchema } from "../../types/auth";
+import { OtpInput } from "../ui/OtpInput";
 
 type RegistrationCodeFormProps = {
   onBack: () => void;
@@ -11,9 +13,18 @@ export function RegistrationCodeForm({
   onContinue,
 }: RegistrationCodeFormProps) {
   const [code, setCode] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const result = VerificationCodeFormSchema.safeParse({ code });
+    if (!result.success) {
+      setError(result.error.issues[0]?.message ?? "Enter a valid code.");
+      return;
+    }
+
+    setError("");
     onContinue();
   };
 
@@ -39,30 +50,36 @@ export function RegistrationCodeForm({
           Enter the 6-digit code sent to your invited email address.
         </p>
 
-        <form className="mt-8 grid min-w-0 gap-5 lg:mt-9" onSubmit={handleSubmit}>
+        <form
+          className="mt-8 grid min-w-0 gap-5 lg:mt-9"
+          noValidate
+          onSubmit={handleSubmit}
+        >
           <label className="grid min-w-0 gap-2 text-sm font-bold text-text">
             <span>Verification code</span>
-            <input
-              className="h-12 min-w-0 w-full rounded-lg border border-border bg-surface px-4 text-center text-lg font-bold tracking-widest text-text outline-none transition placeholder:text-text-subtle hover:border-border-strong focus:border-brand-active focus:ring-4 focus:ring-brand/15"
-              type="text"
-              name="code"
-              inputMode="numeric"
-              autoComplete="one-time-code"
-              placeholder="000000"
+            <OtpInput
+              id="registration-code"
               value={code}
-              maxLength={6}
-              pattern="[0-9]{6}"
-              onChange={(event) =>
-                setCode(event.target.value.replace(/\D/g, "").slice(0, 6))
-              }
-              required
+              invalid={Boolean(error)}
+              describedBy={error ? "registration-code-error" : undefined}
+              onChange={(value) => {
+                setCode(value);
+                setError("");
+              }}
             />
+            {error ? (
+              <span
+                className="text-xs font-semibold text-danger-text"
+                id="registration-code-error"
+              >
+                {error}
+              </span>
+            ) : null}
           </label>
 
           <button
-            className="flex h-12 w-full items-center justify-center gap-3 rounded-lg bg-text text-sm font-extrabold text-surface shadow-md transition hover:-translate-y-px hover:bg-text/85 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-12 w-full items-center justify-center gap-3 rounded-lg bg-text text-sm font-extrabold text-surface shadow-md transition hover:-translate-y-px hover:bg-text/85"
             type="submit"
-            disabled={code.length !== 6}
           >
             Verify code
             <ArrowRight className="size-5" aria-hidden="true" />
