@@ -18,6 +18,20 @@
   --ui-on-brand: oklch(0.18 0.02 80);
   --ui-focus: oklch(0.57 0.2 250);
 
+  --ui-sidebar: oklch(0.9052 0.1657 82.11);
+  --ui-sidebar-panel: oklch(0.922 0.028 95);
+  --ui-sidebar-active: oklch(0.882 0.028 95);
+  --ui-sidebar-secondary: oklch(0.4893 0.0617 82.11);
+  --ui-sidebar-border: oklch(0.7119 0 0);
+  --ui-sidebar-warning: oklch(0.72 0.1475 35);
+  --ui-sidebar-warning-text: oklch(0.428 0.2577 29.23);
+
+  --ui-chart-on-time: #6f9c76;
+  --ui-chart-late: #d3a13b;
+  --ui-chart-absent: #d98b82;
+  --ui-chart-grid: #e3ded5;
+  --ui-chart-axis: #766f65;
+
   --ui-success-surface: oklch(0.95 0.05 145);
   --ui-success-border: oklch(0.78 0.1 145);
   --ui-success-text: oklch(0.38 0.12 145);
@@ -47,6 +61,13 @@
   --color-brand-active: var(--ui-brand-active);
   --color-on-brand: var(--ui-on-brand);
   --color-focus: var(--ui-focus);
+  --color-sidebar: var(--ui-sidebar);
+  --color-sidebar-panel: var(--ui-sidebar-panel);
+  --color-sidebar-active: var(--ui-sidebar-active);
+  --color-sidebar-secondary: var(--ui-sidebar-secondary);
+  --color-sidebar-border: var(--ui-sidebar-border);
+  --color-sidebar-warning: var(--ui-sidebar-warning);
+  --color-sidebar-warning-text: var(--ui-sidebar-warning-text);
   --color-success-surface: var(--ui-success-surface);
   --color-success-border: var(--ui-success-border);
   --color-success-text: var(--ui-success-text);
