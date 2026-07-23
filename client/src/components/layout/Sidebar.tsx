@@ -59,7 +59,7 @@ export function Sidebar() {
           },
         ]),
     { label: "Leave", path: "/leave", icon: FileText, available: true },
-    { label: "Payslips", path: "/payslips", icon: DollarSign, available: false },
+    { label: "Payslips", path: "/payslips", icon: DollarSign, available: true },
     { label: "Settings", path: "/settings", icon: Settings, available: false },
   ];
 

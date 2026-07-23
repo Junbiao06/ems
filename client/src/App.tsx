@@ -34,6 +34,20 @@ const LeavePage = lazy(async () => {
   return { default: leaveModule.LeavePage };
 });
 
+const PayslipsPage = lazy(async () => {
+  const payslipsModule = await import("./pages/payslips/PayslipsPage");
+
+  return { default: payslipsModule.PayslipsPage };
+});
+
+const PayslipDetailsPage = lazy(async () => {
+  const payslipsModule = await import(
+    "./pages/payslips/PayslipDetailsPage"
+  );
+
+  return { default: payslipsModule.PayslipDetailsPage };
+});
+
 function AttendanceRoute() {
   const currentUser = getCurrentMockUser();
   const Page =
@@ -57,6 +71,20 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route
+          path="/payslips/:payslipId"
+          element={
+            <Suspense
+              fallback={
+                <div className="min-h-svh bg-canvas p-8">
+                  <div className="mx-auto h-72 max-w-5xl animate-pulse rounded-xl border border-border bg-surface-muted" />
+                </div>
+              }
+            >
+              <PayslipDetailsPage />
+            </Suspense>
+          }
+        />
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route
@@ -84,6 +112,18 @@ function App() {
                 }
               >
                 <LeavePage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/payslips"
+            element={
+              <Suspense
+                fallback={
+                  <div className="h-72 animate-pulse rounded-xl border border-border bg-surface-muted" />
+                }
+              >
+                <PayslipsPage />
               </Suspense>
             }
           />

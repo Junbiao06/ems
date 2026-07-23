@@ -164,27 +164,27 @@ export function LeaveHistory({
           </thead>
           <tbody className="divide-y divide-border">
             {leaves.map((leave) => (
-              <tr className="align-top transition-colors hover:bg-surface-muted/60" key={leave.id}>
+              <tr className="transition-colors hover:bg-surface-muted/60" key={leave.id}>
                 {showEmployee ? (
-                  <th className="min-w-60 px-6 py-4" scope="row">
+                  <th className="min-w-60 px-6 py-4 align-middle" scope="row">
                     <EmployeeIdentity leave={leave} />
                   </th>
                 ) : null}
                 {showEmployee ? (
-                  <td className="px-4 py-4 font-semibold text-text-muted">
+                  <td className="px-4 py-4 align-middle font-semibold text-text-muted">
                     {leave.employee.department}
                   </td>
                 ) : null}
-                <td className="min-w-52 px-4 py-4 font-semibold text-text-muted">
+                <td className="min-w-52 px-4 py-4 align-middle font-semibold text-text-muted">
                   {formatDate(leave.startDate)} – {formatDate(leave.endDate)}
                 </td>
-                <td className="whitespace-nowrap px-6 py-4 text-center">
+                <td className="whitespace-nowrap px-6 py-4 text-center align-middle">
                   {leaveTypeBadge(leave)}
                 </td>
-                <td className="whitespace-nowrap px-6 py-4 text-center">
+                <td className="whitespace-nowrap px-6 py-4 text-center align-middle">
                   {leaveStatusBadge(leave)}
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-6 py-4 align-middle">
                   <LeaveActions
                     leave={leave}
                     showViewEmployee={showEmployee}
