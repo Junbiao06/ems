@@ -145,8 +145,8 @@ export function AdminAttendanceTable({ records }: AdminAttendanceTableProps) {
               <th className="px-4 py-4 font-bold" scope="col">Check in</th>
               <th className="px-4 py-4 font-bold" scope="col">Check out</th>
               <th className="px-4 py-4 font-bold" scope="col">Working time</th>
-              <th className="px-4 py-4 font-bold" scope="col">Day type</th>
-              <th className="px-6 py-4 font-bold" scope="col">Status</th>
+              <th className="px-4 py-4 text-center font-bold" scope="col">Day type</th>
+              <th className="px-6 py-4 text-center font-bold" scope="col">Status</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
@@ -167,10 +167,10 @@ export function AdminAttendanceTable({ records }: AdminAttendanceTableProps) {
                 <td className="whitespace-nowrap px-4 py-4 font-semibold text-text-muted">
                   {formatWorkingTime(record.workingMinutes)}
                 </td>
-                <td className="whitespace-nowrap px-4 py-4">
+                <td className="whitespace-nowrap px-4 py-4 text-center">
                   {dayTypeBadge(record)}
                 </td>
-                <td className="px-6 py-4">{statusBadge(record)}</td>
+                <td className="px-6 py-4 text-center">{statusBadge(record)}</td>
               </tr>
             ))}
           </tbody>

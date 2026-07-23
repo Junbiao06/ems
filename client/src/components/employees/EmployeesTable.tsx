@@ -7,6 +7,7 @@ type EmployeesTableProps = {
   onDeactivate: (employee: EmployeeListItem) => void;
   onEdit: (employee: EmployeeListItem) => void;
   onResendInvitation: (employee: EmployeeListItem) => void;
+  onViewEmployee: (employee: EmployeeListItem) => void;
 };
 
 const statusLabels = {
@@ -84,6 +85,7 @@ export function EmployeesTable({
   onDeactivate,
   onEdit,
   onResendInvitation,
+  onViewEmployee,
 }: EmployeesTableProps) {
   return (
     <>
@@ -126,6 +128,7 @@ export function EmployeesTable({
                 onDeactivate={onDeactivate}
                 onEdit={onEdit}
                 onResendInvitation={onResendInvitation}
+                onViewEmployee={onViewEmployee}
               />
             </div>
           </article>
@@ -148,13 +151,13 @@ export function EmployeesTable({
               <th className="px-4 py-4 font-bold" scope="col">
                 Joined
               </th>
-              <th className="px-4 py-4 font-bold" scope="col">
+              <th className="px-4 py-4 text-center font-bold" scope="col">
                 Status
               </th>
-              <th className="px-6 py-4 font-bold" scope="col">
+              <th className="px-6 py-4 text-center font-bold" scope="col">
                 Invitation
               </th>
-              <th className="px-6 py-4 text-right font-bold" scope="col">
+              <th className="px-6 py-4 text-center font-bold" scope="col">
                 Actions
               </th>
             </tr>
@@ -174,10 +177,10 @@ export function EmployeesTable({
                 <td className="whitespace-nowrap px-4 py-4 font-semibold text-text-muted">
                   {formatJoinDate(employee.joinDate)}
                 </td>
-                <td className="px-4 py-4">
+                <td className="px-4 py-4 text-center">
                   <EmployeeStatus employee={employee} />
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-6 py-4 text-center">
                   <InvitationStatus employee={employee} />
                 </td>
                 <td className="px-6 py-4">
@@ -186,6 +189,7 @@ export function EmployeesTable({
                     onDeactivate={onDeactivate}
                     onEdit={onEdit}
                     onResendInvitation={onResendInvitation}
+                    onViewEmployee={onViewEmployee}
                   />
                 </td>
               </tr>

@@ -28,6 +28,12 @@ const AdminAttendancePage = lazy(async () => {
   return { default: attendanceModule.AdminAttendancePage };
 });
 
+const LeavePage = lazy(async () => {
+  const leaveModule = await import("./pages/leave/LeavePage");
+
+  return { default: leaveModule.LeavePage };
+});
+
 function AttendanceRoute() {
   const currentUser = getCurrentMockUser();
   const Page =
@@ -68,6 +74,18 @@ function App() {
           <Route
             path="/attendance"
             element={<AttendanceRoute />}
+          />
+          <Route
+            path="/leave"
+            element={
+              <Suspense
+                fallback={
+                  <div className="h-72 animate-pulse rounded-xl border border-border bg-surface-muted" />
+                }
+              >
+                <LeavePage />
+              </Suspense>
+            }
           />
         </Route>
         <Route path="/" element={<Navigate to="/login" replace />} />

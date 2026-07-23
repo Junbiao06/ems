@@ -19,13 +19,13 @@ export function AttendanceTable({ data }: AttendanceTableProps) {
               <th className="px-5 py-3 font-bold" scope="col">
                 Date
               </th>
-              <th className="px-3 py-3 text-right font-bold" scope="col">
+              <th className="px-3 py-3 font-bold" scope="col">
                 Present
               </th>
-              <th className="px-3 py-3 text-right font-bold" scope="col">
+              <th className="px-3 py-3 font-bold" scope="col">
                 Late
               </th>
-              <th className="px-5 py-3 text-right font-bold" scope="col">
+              <th className="px-5 py-3 font-bold" scope="col">
                 Rate
               </th>
             </tr>
@@ -41,13 +41,13 @@ export function AttendanceTable({ data }: AttendanceTableProps) {
                   <th className="whitespace-nowrap px-5 py-3 font-semibold text-text" scope="row">
                     {item.dateLabel}
                   </th>
-                  <td className="px-3 py-3 text-right font-semibold text-success-text">
+                  <td className="px-3 py-3 font-semibold text-success-text">
                     {present}
                   </td>
-                  <td className="px-3 py-3 text-right font-semibold text-warning-text">
+                  <td className="px-3 py-3 font-semibold text-warning-text">
                     {item.late}
                   </td>
-                  <td className="px-5 py-3 text-right font-extrabold text-text">
+                  <td className="px-5 py-3 font-extrabold text-text">
                     {attendanceRate}%
                   </td>
                 </tr>

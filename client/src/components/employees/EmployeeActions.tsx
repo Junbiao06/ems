@@ -1,4 +1,10 @@
-import { Ellipsis, MailPlus, Pencil, UserRoundX } from "lucide-react";
+import {
+  Ellipsis,
+  MailPlus,
+  Pencil,
+  UserRound,
+  UserRoundX,
+} from "lucide-react";
 import type { EmployeeListItem } from "@/types/employee";
 import {
   DropdownMenu,
@@ -12,6 +18,7 @@ type EmployeeActionsProps = {
   onDeactivate: (employee: EmployeeListItem) => void;
   onEdit: (employee: EmployeeListItem) => void;
   onResendInvitation: (employee: EmployeeListItem) => void;
+  onViewEmployee: (employee: EmployeeListItem) => void;
 };
 
 export function EmployeeActions({
@@ -19,9 +26,10 @@ export function EmployeeActions({
   onDeactivate,
   onEdit,
   onResendInvitation,
+  onViewEmployee,
 }: EmployeeActionsProps) {
   return (
-    <div className="flex justify-end">
+    <div className="flex justify-center">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <button
@@ -34,6 +42,11 @@ export function EmployeeActions({
         </DropdownMenuTrigger>
 
         <DropdownMenuContent align="end">
+          <DropdownMenuItem onSelect={() => onViewEmployee(employee)}>
+            <UserRound className="size-4" aria-hidden="true" />
+            View employee
+          </DropdownMenuItem>
+
           <DropdownMenuItem onSelect={() => onEdit(employee)}>
             <Pencil className="size-4" aria-hidden="true" />
             Edit employee

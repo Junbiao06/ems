@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 import { CreateEmployeeModal } from "../../components/employees/CreateEmployeeModal";
 import { EditEmployeeModal } from "../../components/employees/EditEmployeeModal";
+import { EmployeeDetailsModal } from "../../components/employees/EmployeeDetailsModal";
 import { ImportEmployeesModal } from "../../components/employees/ImportEmployeesModal";
 import { EmployeesTable } from "../../components/employees/EmployeesTable";
 import { Pagination } from "../../components/ui/Pagination";
@@ -31,6 +32,9 @@ export function EmployeesPage() {
   const [employeeToDeactivate, setEmployeeToDeactivate] =
     useState<EmployeeListItem | null>(null);
   const [employeeToEdit, setEmployeeToEdit] = useState<EmployeeListItem | null>(
+    null,
+  );
+  const [employeeToView, setEmployeeToView] = useState<EmployeeListItem | null>(
     null,
   );
 
@@ -361,6 +365,7 @@ export function EmployeesPage() {
             onDeactivate={setEmployeeToDeactivate}
             onEdit={setEmployeeToEdit}
             onResendInvitation={resendInvitation}
+            onViewEmployee={setEmployeeToView}
           />
         ) : (
           <div className="grid min-h-72 place-items-center px-5 py-12 text-center">
@@ -405,6 +410,13 @@ export function EmployeesPage() {
             .map((employee) => employee.email)}
           onClose={() => setEmployeeToEdit(null)}
           onUpdate={updateEmployee}
+        />
+      ) : null}
+
+      {employeeToView ? (
+        <EmployeeDetailsModal
+          employee={employeeToView}
+          onClose={() => setEmployeeToView(null)}
         />
       ) : null}
 
