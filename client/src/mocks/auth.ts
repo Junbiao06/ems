@@ -1,4 +1,7 @@
-import type { LoginFormData } from "@/types/auth";
+import type {
+  ChangePasswordFormData,
+  LoginFormData,
+} from "@/types/auth";
 
 export type MockAuthUser = {
   id: string;
@@ -62,6 +65,22 @@ export function getCurrentMockUser() {
 
 export function clearCurrentMockUser() {
   currentMockUser = null;
+}
+
+export function changeMockPassword(
+  user: MockAuthUser,
+  input: ChangePasswordFormData,
+) {
+  const account = mockLoginAccounts.find(
+    (candidate) => candidate.id === user.id,
+  );
+
+  if (!account || account.password !== input.currentPassword) {
+    return false;
+  }
+
+  account.password = input.newPassword;
+  return true;
 }
 
 export const mockRegistrationInvitation = {

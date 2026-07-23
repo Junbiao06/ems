@@ -30,7 +30,10 @@ export const VerificationCodeFormSchema = z.object({
 export const CompleteRegistrationFormSchema = z
   .object({
     password: PasswordSchema,
-    confirmPassword: z.string().min(1, "Confirm your password."),
+    confirmPassword: z
+      .string()
+      .min(1, "Confirm your password.")
+      .max(128, "Password must not exceed 128 characters."),
   })
   .superRefine((value, context) => {
     if (value.password !== value.confirmPassword) {
@@ -45,7 +48,10 @@ export const CompleteRegistrationFormSchema = z
 export const ResetPasswordFormSchema = z
   .object({
     newPassword: PasswordSchema,
-    confirmPassword: z.string().min(1, "Confirm your password."),
+    confirmPassword: z
+      .string()
+      .min(1, "Confirm your password.")
+      .max(128, "Password must not exceed 128 characters."),
   })
   .superRefine((value, context) => {
     if (value.newPassword !== value.confirmPassword) {
@@ -53,6 +59,36 @@ export const ResetPasswordFormSchema = z
         code: "custom",
         path: ["confirmPassword"],
         message: "Passwords do not match.",
+      });
+    }
+  });
+
+export const ChangePasswordFormSchema = z
+  .object({
+    currentPassword: z
+      .string()
+      .min(1, "Current password is required.")
+      .max(128, "Password must not exceed 128 characters."),
+    newPassword: PasswordSchema,
+    confirmPassword: z
+      .string()
+      .min(1, "Confirm your password.")
+      .max(128, "Password must not exceed 128 characters."),
+  })
+  .superRefine((value, context) => {
+    if (value.newPassword !== value.confirmPassword) {
+      context.addIssue({
+        code: "custom",
+        path: ["confirmPassword"],
+        message: "Passwords do not match.",
+      });
+    }
+
+    if (value.currentPassword === value.newPassword) {
+      context.addIssue({
+        code: "custom",
+        path: ["newPassword"],
+        message: "New password must be different.",
       });
     }
   });
@@ -66,3 +102,9 @@ export type CompleteRegistrationFormInput = z.input<
   typeof CompleteRegistrationFormSchema
 >;
 export type ResetPasswordFormInput = z.input<typeof ResetPasswordFormSchema>;
+export type ChangePasswordFormInput = z.input<
+  typeof ChangePasswordFormSchema
+>;
+export type ChangePasswordFormData = z.output<
+  typeof ChangePasswordFormSchema
+>;

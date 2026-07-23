@@ -193,7 +193,8 @@ export function LoginForm() {
             ))}
           </div>
           <p className="mt-3 text-xs text-text-subtle">
-            Both demo accounts use password: <strong>demo1234</strong>
+            Initial demo password: <strong>demo1234</strong>. A password
+            changed during this session uses the new value.
           </p>
         </div>
       </div>

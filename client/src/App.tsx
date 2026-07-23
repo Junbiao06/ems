@@ -48,6 +48,12 @@ const PayslipDetailsPage = lazy(async () => {
   return { default: payslipsModule.PayslipDetailsPage };
 });
 
+const SettingsPage = lazy(async () => {
+  const settingsModule = await import("./pages/settings/SettingsPage");
+
+  return { default: settingsModule.SettingsPage };
+});
+
 function AttendanceRoute() {
   const currentUser = getCurrentMockUser();
   const Page =
@@ -124,6 +130,18 @@ function App() {
                 }
               >
                 <PayslipsPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <Suspense
+                fallback={
+                  <div className="h-72 animate-pulse rounded-xl border border-border bg-surface-muted" />
+                }
+              >
+                <SettingsPage />
               </Suspense>
             }
           />

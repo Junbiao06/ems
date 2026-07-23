@@ -35,6 +35,7 @@ export function EmployeeForm({
   const [errors, setErrors] = useState<
     Partial<Record<keyof EmployeeCreateFormInput, string>>
   >({});
+  const [bio, setBio] = useState(initialEmployee?.bio ?? "");
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -237,11 +238,23 @@ export function EmployeeForm({
             <span>Bio (optional)</span>
             <textarea
               className="min-h-24 w-full resize-y rounded-lg border border-border bg-surface-raised px-3 py-3 text-sm font-normal text-text outline-none transition placeholder:text-text-subtle hover:border-border-strong focus:border-focus focus:ring-2 focus:ring-focus/15"
-              defaultValue={initialEmployee?.bio}
               name="bio"
-              maxLength={2000}
+              maxLength={100}
+              value={bio}
+              onChange={(event) => {
+                setBio(event.target.value);
+                setErrors((currentErrors) => ({
+                  ...currentErrors,
+                  bio: undefined,
+                }));
+              }}
             />
-            {errorFor("bio")}
+            <span className="flex items-center justify-between gap-4">
+              {errorFor("bio") ?? <span />}
+              <span className="text-xs font-semibold text-text-subtle">
+                {bio.length}/100
+              </span>
+            </span>
           </label>
         </div>
       </section>

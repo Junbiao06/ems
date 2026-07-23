@@ -50,7 +50,7 @@ export const EmployeeListItemSchema = z.object({
   allowancesMinor: z.number().int().min(0),
   deductionsMinor: z.number().int().min(0),
   currency: z.literal("CNY"),
-  bio: z.string(),
+  bio: z.string().max(100, "Bio must not exceed 100 characters."),
   status: EmployeeStatusSchema,
   invitationStatus: InvitationStatusSchema,
 });
@@ -86,7 +86,7 @@ export const EmployeeCreateFormSchema = z.object({
   allowancesMinor: MoneyInputSchema,
   deductionsMinor: MoneyInputSchema,
   currency: z.literal("CNY", "Select a valid currency."),
-  bio: z.string().trim().max(2000, "Bio must not exceed 2,000 characters."),
+  bio: z.string().trim().max(100, "Bio must not exceed 100 characters."),
 });
 
 export const departments = DepartmentSchema.options;
