@@ -12,7 +12,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useState } from "react";
-import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { clearCurrentMockUser, getCurrentMockUser } from "../../mocks/auth";
 import { cn } from "../../utils/cn";
 
 type NavigationItem = {
@@ -24,12 +25,13 @@ type NavigationItem = {
 
 export function Sidebar() {
   const { pathname } = useLocation();
-  const [searchParams] = useSearchParams();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const employeeView = searchParams.get("role") === "employee";
-  const user = employeeView
-    ? { fullName: "Jordan Lee", role: "Employee" }
-    : { fullName: "Avery Chen", role: "Administrator" };
+  const currentUser = getCurrentMockUser();
+  const employeeView = currentUser.role === "EMPLOYEE";
+  const user = {
+    fullName: currentUser.fullName,
+    role: employeeView ? "Employee" : "Administrator",
+  };
 
   const navigationItems: NavigationItem[] = [
     { label: "Dashboard", path: "/dashboard", icon: LayoutGrid, available: true },
@@ -39,7 +41,7 @@ export function Sidebar() {
             label: "Attendance",
             path: "/attendance",
             icon: Calendar,
-            available: false,
+            available: true,
           },
         ]
       : [
@@ -47,6 +49,12 @@ export function Sidebar() {
             label: "Employees",
             path: "/employees",
             icon: UserRound,
+            available: true,
+          },
+          {
+            label: "Attendance",
+            path: "/attendance",
+            icon: Calendar,
             available: true,
           },
         ]),
@@ -122,11 +130,7 @@ export function Sidebar() {
             <Link
               className={className}
               key={item.path}
-              to={
-                employeeView && item.path === "/dashboard"
-                  ? "/dashboard?role=employee"
-                  : item.path
-              }
+              to={item.path}
               onClick={() => setMobileOpen(false)}
             >
               {content}
@@ -139,6 +143,7 @@ export function Sidebar() {
         <Link
           className="group flex w-full items-center justify-center gap-2 rounded-2xl bg-sidebar-active p-2 transition-colors hover:bg-sidebar-warning"
           to="/login"
+          onClick={clearCurrentMockUser}
         >
           <span className="group-hover:text-sidebar-warning-text">Logout</span>
           <LogOut

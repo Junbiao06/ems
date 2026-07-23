@@ -1,17 +1,15 @@
-import { useSearchParams } from "react-router-dom";
 import { AdminDashboard } from "../../components/dashboard/AdminDashboard";
 import { EmployeeDashboard } from "../../components/dashboard/EmployeeDashboard";
+import { getCurrentMockUser } from "../../mocks/auth";
 import {
   mockAdminDashboard,
   mockEmployeeDashboard,
 } from "../../mocks/dashboard";
 
 export function DashboardPage() {
-  const [searchParams] = useSearchParams();
+  const user = getCurrentMockUser();
   const data =
-    searchParams.get("role") === "employee"
-      ? mockEmployeeDashboard
-      : mockAdminDashboard;
+    user.role === "EMPLOYEE" ? mockEmployeeDashboard : mockAdminDashboard;
 
   return data.role === "ADMIN" ? (
     <AdminDashboard data={data} />

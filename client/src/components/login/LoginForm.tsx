@@ -1,7 +1,11 @@
 import { useState, type FormEvent } from "react";
 import { ArrowRight, Eye, EyeOff } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { authenticateMockUser, mockLoginAccounts } from "../../mocks/auth";
+import {
+  authenticateMockUser,
+  mockLoginAccounts,
+  setCurrentMockUser,
+} from "../../mocks/auth";
 import { LoginFormSchema, type LoginFormInput } from "@/types/auth";
 
 export function LoginForm() {
@@ -46,7 +50,8 @@ export function LoginForm() {
 
     setErrors({});
     setFormError("");
-    navigate(user.role === "EMPLOYEE" ? "/dashboard?role=employee" : "/dashboard");
+    setCurrentMockUser(user);
+    navigate("/dashboard");
   };
 
   return (

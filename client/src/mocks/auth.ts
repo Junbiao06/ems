@@ -28,6 +28,17 @@ export const mockLoginAccounts: MockAuthAccount[] = [
   },
 ];
 
+let currentMockUser: MockAuthUser | null = null;
+
+function accountUser(account: MockAuthAccount): MockAuthUser {
+  return {
+    id: account.id,
+    fullName: account.fullName,
+    email: account.email,
+    role: account.role,
+  };
+}
+
 export function authenticateMockUser(input: LoginFormData): MockAuthUser | null {
   const account = mockLoginAccounts.find(
     (candidate) =>
@@ -38,12 +49,19 @@ export function authenticateMockUser(input: LoginFormData): MockAuthUser | null 
     return null;
   }
 
-  return {
-    id: account.id,
-    fullName: account.fullName,
-    email: account.email,
-    role: account.role,
-  };
+  return accountUser(account);
+}
+
+export function setCurrentMockUser(user: MockAuthUser) {
+  currentMockUser = user;
+}
+
+export function getCurrentMockUser() {
+  return currentMockUser ?? accountUser(mockLoginAccounts[0]);
+}
+
+export function clearCurrentMockUser() {
+  currentMockUser = null;
 }
 
 export const mockRegistrationInvitation = {
