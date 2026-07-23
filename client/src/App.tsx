@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { Toaster } from "react-hot-toast";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { AppLayout } from "./layouts/AppLayout";
+import { getCurrentMockUser } from "./mocks/auth";
 import { ForgotPasswordPage } from "./pages/auth/ForgotPasswordPage";
 import { LoginPage } from "./pages/auth/LoginPage";
 import { RegisterPage } from "./pages/auth/RegisterPage";
@@ -12,6 +13,42 @@ const EmployeesPage = lazy(async () => {
 
   return { default: employeesModule.EmployeesPage };
 });
+
+const AttendancePage = lazy(async () => {
+  const attendanceModule = await import("./pages/attendance/AttendancePage");
+
+  return { default: attendanceModule.AttendancePage };
+});
+
+const AdminAttendancePage = lazy(async () => {
+  const attendanceModule = await import(
+    "./pages/attendance/AdminAttendancePage"
+  );
+
+  return { default: attendanceModule.AdminAttendancePage };
+});
+
+const LeavePage = lazy(async () => {
+  const leaveModule = await import("./pages/leave/LeavePage");
+
+  return { default: leaveModule.LeavePage };
+});
+
+function AttendanceRoute() {
+  const currentUser = getCurrentMockUser();
+  const Page =
+    currentUser.role === "ADMIN" ? AdminAttendancePage : AttendancePage;
+
+  return (
+    <Suspense
+      fallback={
+        <div className="h-72 animate-pulse rounded-xl border border-border bg-surface-muted" />
+      }
+    >
+      <Page />
+    </Suspense>
+  );
+}
 
 function App() {
   return (
@@ -31,6 +68,22 @@ function App() {
                 }
               >
                 <EmployeesPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/attendance"
+            element={<AttendanceRoute />}
+          />
+          <Route
+            path="/leave"
+            element={
+              <Suspense
+                fallback={
+                  <div className="h-72 animate-pulse rounded-xl border border-border bg-surface-muted" />
+                }
+              >
+                <LeavePage />
               </Suspense>
             }
           />

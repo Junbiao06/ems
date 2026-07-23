@@ -67,7 +67,11 @@ export function AdminDashboard({ data }: AdminDashboardProps) {
         />
         <StatCard
           label="Attendance rate"
-          value={`${Math.round((data.checkedInToday / data.activeEmployees) * 100)}%`}
+          value={
+            data.activeEmployees === 0
+              ? "0%"
+              : `${Math.round((data.checkedInToday / data.activeEmployees) * 100)}%`
+          }
           icon={LogIn}
           tone="success"
         />

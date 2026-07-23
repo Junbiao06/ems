@@ -58,7 +58,7 @@ export function EmployeeImportTable({ rows }: EmployeeImportTableProps) {
                 {column.label}
               </th>
             ))}
-            <th className="px-4 py-3 font-bold" scope="col">
+            <th className="px-4 py-3 text-center font-bold" scope="col">
               Status
             </th>
             <th className="px-4 py-3 font-bold" scope="col">
@@ -93,7 +93,7 @@ export function EmployeeImportTable({ rows }: EmployeeImportTableProps) {
                     <span className="line-clamp-2">{valueFor(row, column.key)}</span>
                   </td>
                 ))}
-                <td className="px-4 py-3">
+                <td className="px-4 py-3 text-center">
                   <Badge tone={row.valid ? "success" : "danger"}>
                     {row.valid ? "Valid" : "Error"}
                   </Badge>

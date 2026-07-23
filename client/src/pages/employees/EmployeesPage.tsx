@@ -1,9 +1,10 @@
-import { Search, Upload, UserPlus, UserSearch } from "lucide-react";
+import { RotateCcw, Search, Upload, UserPlus, UserSearch } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 import { CreateEmployeeModal } from "../../components/employees/CreateEmployeeModal";
 import { EditEmployeeModal } from "../../components/employees/EditEmployeeModal";
+import { EmployeeDetailsModal } from "../../components/employees/EmployeeDetailsModal";
 import { ImportEmployeesModal } from "../../components/employees/ImportEmployeesModal";
 import { EmployeesTable } from "../../components/employees/EmployeesTable";
 import { Pagination } from "../../components/ui/Pagination";
@@ -33,6 +34,9 @@ export function EmployeesPage() {
   const [employeeToEdit, setEmployeeToEdit] = useState<EmployeeListItem | null>(
     null,
   );
+  const [employeeToView, setEmployeeToView] = useState<EmployeeListItem | null>(
+    null,
+  );
 
   const departmentResult = DepartmentSchema.safeParse(searchParams.get("department"));
   const statusResult = EmployeeStatusSchema.safeParse(searchParams.get("status"));
@@ -41,6 +45,11 @@ export function EmployeesPage() {
   const selectedStatus = statusResult.success ? statusResult.data : "";
   const selectedSort = sortResult.success ? sortResult.data : "joinDate-desc";
   const requestedPage = Number.parseInt(searchParams.get("page") ?? "1", 10);
+  const hasFilters =
+    searchParams.has("search") ||
+    Boolean(selectedDepartment) ||
+    Boolean(selectedStatus) ||
+    selectedSort !== "joinDate-desc";
 
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
@@ -271,7 +280,7 @@ export function EmployeesPage() {
       </header>
 
       <section className="mt-8 rounded-xl border border-border bg-surface shadow-sm">
-        <div className="grid gap-3 border-b border-border p-4 sm:grid-cols-2 xl:grid-cols-[minmax(260px,1fr)_200px_160px_190px] sm:p-5">
+        <div className="grid gap-3 border-b border-border p-4 sm:grid-cols-2 xl:grid-cols-[minmax(260px,1fr)_200px_160px_190px_auto] sm:p-5">
           <label className="relative sm:col-span-2 xl:col-span-1">
             <span className="sr-only">Search employees</span>
             <Search
@@ -332,24 +341,22 @@ export function EmployeesPage() {
               <option value="salary-asc">Salary: low to high</option>
             </select>
           </label>
+
+          <button
+            className="flex h-11 items-center justify-center gap-2 rounded-lg border border-border px-4 text-sm font-bold text-text transition hover:border-border-strong hover:bg-surface-muted disabled:cursor-not-allowed disabled:opacity-40"
+            type="button"
+            disabled={!hasFilters}
+            onClick={clearFilters}
+          >
+            <RotateCcw className="size-4" aria-hidden="true" />
+            Clear
+          </button>
         </div>
 
-        <div className="flex items-center justify-between gap-4 px-4 py-3 sm:px-6">
+        <div className="px-4 py-3 sm:px-6">
           <p className="text-sm font-semibold text-text-muted">
             {filteredEmployees.length} {filteredEmployees.length === 1 ? "employee" : "employees"}
           </p>
-          {(searchParams.has("search") ||
-            selectedDepartment ||
-            selectedStatus ||
-            selectedSort !== "joinDate-desc") && (
-            <button
-              className="text-sm font-bold text-text-muted hover:text-text"
-              type="button"
-              onClick={clearFilters}
-            >
-              Clear filters
-            </button>
-          )}
         </div>
 
         {visibleEmployees.length ? (
@@ -358,6 +365,7 @@ export function EmployeesPage() {
             onDeactivate={setEmployeeToDeactivate}
             onEdit={setEmployeeToEdit}
             onResendInvitation={resendInvitation}
+            onViewEmployee={setEmployeeToView}
           />
         ) : (
           <div className="grid min-h-72 place-items-center px-5 py-12 text-center">
@@ -402,6 +410,13 @@ export function EmployeesPage() {
             .map((employee) => employee.email)}
           onClose={() => setEmployeeToEdit(null)}
           onUpdate={updateEmployee}
+        />
+      ) : null}
+
+      {employeeToView ? (
+        <EmployeeDetailsModal
+          employee={employeeToView}
+          onClose={() => setEmployeeToView(null)}
         />
       ) : null}
 
