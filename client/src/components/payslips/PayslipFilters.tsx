@@ -18,7 +18,7 @@ export function PayslipFilters({
   onClear,
 }: PayslipFiltersProps) {
   return (
-    <div className="grid gap-3 border-b border-border p-4 sm:grid-cols-[minmax(240px,1fr)_200px_auto] sm:p-5">
+    <div className="grid gap-3 border-b border-border p-4 sm:p-5 md:grid-cols-[minmax(240px,1fr)_200px_auto]">
       <label className="relative">
         <span className="sr-only">Search employees</span>
         <Search

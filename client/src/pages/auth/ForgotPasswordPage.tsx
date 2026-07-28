@@ -1,7 +1,7 @@
 import { useState } from "react";
+import { VerificationCodeForm } from "../../components/auth/VerificationCodeForm";
 import { ForgotPasswordForm } from "../../components/forgot-password/ForgotPasswordForm";
 import { PasswordResetComplete } from "../../components/forgot-password/PasswordResetComplete";
-import { PasswordResetCodeForm } from "../../components/forgot-password/PasswordResetCodeForm";
 import { PasswordResetForm } from "../../components/forgot-password/PasswordResetForm";
 import { LoginHero } from "../../components/login/LoginHero";
 
@@ -13,7 +13,10 @@ export function ForgotPasswordPage() {
   const renderForm = () => {
     if (step === "code") {
       return (
-        <PasswordResetCodeForm
+        <VerificationCodeForm
+          backLabel="Change email"
+          description="Enter the 6-digit code sent to your work email."
+          inputId="password-reset-code"
           onBack={() => setStep("email")}
           onContinue={() => setStep("password")}
         />

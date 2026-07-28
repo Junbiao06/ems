@@ -9,7 +9,7 @@ type EmployeeDetailsModalProps = {
 
 const statusLabels = {
   ACTIVE: "Active",
-  INVITED: "Pending activation",
+  INVITED: "Pending",
   INACTIVE: "Inactive",
 };
 

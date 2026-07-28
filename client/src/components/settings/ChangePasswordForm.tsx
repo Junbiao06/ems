@@ -5,6 +5,7 @@ import {
   type ChangePasswordFormData,
   type ChangePasswordFormInput,
 } from "@/types/auth";
+import { FormErrorSummary } from "../ui/FormErrorSummary";
 
 type ChangePasswordFormProps = {
   onSubmit: (password: ChangePasswordFormData) => boolean;
@@ -61,14 +62,6 @@ function PasswordField({
           )}
         </button>
       </span>
-      {error ? (
-        <span
-          className="text-xs font-semibold text-danger-text"
-          id={errorId}
-        >
-          {error}
-        </span>
-      ) : null}
     </label>
   );
 }
@@ -173,6 +166,27 @@ export function ChangePasswordForm({
           onVisibilityChange={() => toggleVisibility("confirmPassword")}
         />
       </div>
+
+      <FormErrorSummary
+        className="mt-5"
+        items={[
+          {
+            field: "Current password",
+            message: errors.currentPassword,
+            id: "currentPassword-error",
+          },
+          {
+            field: "New password",
+            message: errors.newPassword,
+            id: "newPassword-error",
+          },
+          {
+            field: "Confirm new password",
+            message: errors.confirmPassword,
+            id: "confirmPassword-error",
+          },
+        ]}
+      />
 
       <p className="mt-5 text-xs font-semibold text-text-muted">
         Use at least 8 characters. You will be signed out after the password

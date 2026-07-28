@@ -6,6 +6,7 @@ import { CreateEmployeeModal } from "../../components/employees/CreateEmployeeMo
 import { EditEmployeeModal } from "../../components/employees/EditEmployeeModal";
 import { EmployeeDetailsModal } from "../../components/employees/EmployeeDetailsModal";
 import { ImportEmployeesModal } from "../../components/employees/ImportEmployeesModal";
+import { PageHeader } from "../../components/layout/PageHeader";
 import { EmployeesTable } from "../../components/employees/EmployeesTable";
 import { Pagination } from "../../components/ui/Pagination";
 import { ConfirmDialog } from "../../components/ui/ConfirmDialog";
@@ -246,38 +247,31 @@ export function EmployeesPage() {
 
   return (
     <div className="mx-auto w-full max-w-7xl">
-      <header className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <p className="text-xs font-extrabold tracking-widest text-text-subtle uppercase">
-            Team directory
-          </p>
-          <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-text sm:text-4xl">
-            Employees
-          </h1>
-          <p className="mt-2 text-sm leading-6 text-text-muted">
-            Search and manage everyone in your organization.
-          </p>
-        </div>
-
-        <div className="flex gap-3">
-          <button
-            className="flex h-11 items-center justify-center gap-2 rounded-lg border border-border bg-surface px-4 text-sm font-bold text-text transition hover:border-border-strong hover:bg-surface-muted"
-            type="button"
-            onClick={() => setImportModalOpen(true)}
-          >
-            <Upload className="size-4" aria-hidden="true" />
-            Import
-          </button>
-          <button
-            className="flex h-11 items-center justify-center gap-2 rounded-lg bg-text px-4 text-sm font-bold text-surface transition hover:bg-text/85"
-            type="button"
-            onClick={() => setCreateModalOpen(true)}
-          >
-            <UserPlus className="size-4" aria-hidden="true" />
-            Add employee
-          </button>
-        </div>
-      </header>
+      <PageHeader
+        eyebrow="Team directory"
+        title="Employees"
+        description="Search and manage everyone in your organization."
+        actions={
+          <div className="grid grid-cols-2 gap-3 md:flex">
+            <button
+              className="flex h-11 items-center justify-center gap-2 rounded-lg border border-border bg-surface px-4 text-sm font-bold text-text transition hover:border-border-strong hover:bg-surface-muted"
+              type="button"
+              onClick={() => setImportModalOpen(true)}
+            >
+              <Upload className="size-4" aria-hidden="true" />
+              Import
+            </button>
+            <button
+              className="flex h-11 items-center justify-center gap-2 rounded-lg bg-text px-4 text-sm font-bold text-surface transition hover:bg-text/85"
+              type="button"
+              onClick={() => setCreateModalOpen(true)}
+            >
+              <UserPlus className="size-4" aria-hidden="true" />
+              Add employee
+            </button>
+          </div>
+        }
+      />
 
       <section className="mt-8 rounded-xl border border-border bg-surface shadow-sm">
         <div className="grid gap-3 border-b border-border p-4 sm:grid-cols-2 xl:grid-cols-[minmax(260px,1fr)_200px_160px_190px_auto] sm:p-5">
@@ -321,7 +315,7 @@ export function EmployeesPage() {
             >
               <option value="">Status</option>
               <option value="ACTIVE">Active</option>
-              <option value="INVITED">Pending activation</option>
+              <option value="INVITED">Pending</option>
               <option value="INACTIVE">Inactive</option>
             </select>
           </label>

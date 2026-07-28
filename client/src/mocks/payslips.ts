@@ -217,13 +217,26 @@ export function getMockPayslipById(payslipId: string) {
 }
 
 export function addMockPayslip(payslip: PayslipRecord) {
-  const validatedPayslip = PayslipRecordSchema.parse(payslip);
+  addMockPayslips([payslip]);
+}
+
+export function addMockPayslips(payslips: PayslipRecord[]) {
+  const validatedPayslips = PayslipRecordSchema.array().parse(payslips);
+  const importedIds = new Set(
+    validatedPayslips.map((payslip) => payslip.id),
+  );
+
   generatedMockPayslips = [
-    validatedPayslip,
+    ...validatedPayslips,
     ...generatedMockPayslips.filter(
-      (currentPayslip) => currentPayslip.id !== validatedPayslip.id,
+      (currentPayslip) => !importedIds.has(currentPayslip.id),
     ),
   ];
-  mockPayslipRecords = [validatedPayslip, ...mockPayslipRecords];
+  mockPayslipRecords = [
+    ...validatedPayslips,
+    ...mockPayslipRecords.filter(
+      (currentPayslip) => !importedIds.has(currentPayslip.id),
+    ),
+  ];
   saveGeneratedMockPayslips(generatedMockPayslips);
 }

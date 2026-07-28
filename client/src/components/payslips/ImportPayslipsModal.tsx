@@ -1,70 +1,75 @@
+import { Download } from "lucide-react";
 import { useMemo, useState } from "react";
+import type { EmployeeListItem } from "@/types/employee";
 import type {
-  EmployeeCreateFormData,
-  EmployeeImportRowResult,
-} from "@/types/employee";
+  GeneratePayslipFormData,
+  PayslipImportRowResult,
+  PayslipRecord,
+} from "@/types/payslip";
 import {
-  employeeImportMaxFileSize,
-  employeeImportMaxRows,
-  parseEmployeeFile,
-} from "../../utils/employeeFileParser";
-import { validateEmployeeImportRows } from "../../utils/employeeImportValidation";
+  parsePayslipFile,
+  payslipImportMaxFileSize,
+  payslipImportMaxRows,
+} from "../../utils/payslipFileParser";
+import { validatePayslipImportRows } from "../../utils/payslipImportValidation";
 import { CsvImportDropzone } from "../imports/CsvImportDropzone";
 import { CsvImportSummary } from "../imports/CsvImportSummary";
 import { Modal } from "../ui/Modal";
-import { EmployeeImportTable } from "./EmployeeImportTable";
+import { PayslipImportTable } from "./PayslipImportTable";
 
-type ImportEmployeesModalProps = {
-  existingEmails: string[];
+type ImportPayslipsModalProps = {
+  employees: EmployeeListItem[];
+  existingPayslips: PayslipRecord[];
   onClose: () => void;
-  onImport: (employees: EmployeeCreateFormData[]) => void;
+  onImport: (payslips: GeneratePayslipFormData[]) => void;
 };
 
-export function ImportEmployeesModal({
-  existingEmails,
+export function ImportPayslipsModal({
+  employees,
+  existingPayslips,
   onClose,
   onImport,
-}: ImportEmployeesModalProps) {
+}: ImportPayslipsModalProps) {
   const [file, setFile] = useState<File | null>(null);
-  const [rows, setRows] = useState<EmployeeImportRowResult[]>([]);
+  const [rows, setRows] = useState<PayslipImportRowResult[]>([]);
   const [error, setError] = useState("");
   const [parsing, setParsing] = useState(false);
-
-  const validEmployees = useMemo(
+  const validPayslips = useMemo(
     () => rows.flatMap((row) => (row.valid ? [row.data] : [])),
     [rows],
   );
-  const invalidRowCount = rows.length - validEmployees.length;
+  const invalidRowCount = rows.length - validPayslips.length;
 
   async function handleFileSelected(selectedFile: File) {
     setFile(selectedFile);
     setRows([]);
     setError("");
 
-    if (selectedFile.size > employeeImportMaxFileSize) {
-      setError("The employee file must not exceed 5 MB.");
+    if (selectedFile.size > payslipImportMaxFileSize) {
+      setError("The payslip file must not exceed 5 MB.");
       return;
     }
 
     setParsing(true);
 
     try {
-      const rawRows = await parseEmployeeFile(selectedFile);
+      const rawRows = await parsePayslipFile(selectedFile);
 
       if (rawRows.length === 0) {
-        throw new Error("The employee file does not contain any rows.");
+        throw new Error("The payslip file does not contain any rows.");
       }
 
-      if (rawRows.length > employeeImportMaxRows) {
+      if (rawRows.length > payslipImportMaxRows) {
         throw new Error(
-          `An employee file can contain at most ${employeeImportMaxRows} rows.`,
+          `A payslip file can contain at most ${payslipImportMaxRows} rows.`,
         );
       }
 
       setRows(
-        validateEmployeeImportRows(
+        validatePayslipImportRows(
           rawRows,
-          new Set(existingEmails.map((email) => email.toLowerCase())),
+          employees,
+          existingPayslips,
         ),
       );
     } catch (parseError) {
@@ -80,23 +85,34 @@ export function ImportEmployeesModal({
 
   return (
     <Modal
-      title="Import employees"
-      description="Validate an employee CSV locally before creating any records."
+      title="Import payslips"
+      description="Validate salary records locally before adding them."
       onClose={onClose}
     >
       <div className="grid gap-6 p-5 sm:p-7">
+        <div className="flex justify-end">
+          <a
+            className="inline-flex items-center gap-2 text-sm font-bold text-text-muted transition hover:text-text"
+            href="/payslip-import-template.csv"
+            download
+          >
+            <Download className="size-4" aria-hidden="true" />
+            Download template
+          </a>
+        </div>
+
         {rows.length > 0 && file ? (
           <div className="flex justify-end">
             <CsvImportDropzone
               compact
-              dataLabel="employee"
+              dataLabel="payslip"
               parsing={parsing}
               onFileSelected={handleFileSelected}
             />
           </div>
         ) : (
           <CsvImportDropzone
-            dataLabel="employee"
+            dataLabel="payslip"
             parsing={parsing}
             onFileSelected={handleFileSelected}
           />
@@ -116,10 +132,10 @@ export function ImportEmployeesModal({
             <CsvImportSummary
               file={file}
               totalRows={rows.length}
-              validRows={validEmployees.length}
+              validRows={validPayslips.length}
               invalidRows={invalidRowCount}
             />
-            <EmployeeImportTable
+            <PayslipImportTable
               key={`${file.name}-${file.size}-${file.lastModified}`}
               rows={rows}
             />
@@ -138,9 +154,9 @@ export function ImportEmployeesModal({
             className="h-11 rounded-lg bg-text px-5 text-sm font-bold text-surface transition hover:bg-text/85 disabled:cursor-not-allowed disabled:opacity-40"
             type="button"
             disabled={rows.length === 0 || invalidRowCount > 0 || parsing}
-            onClick={() => onImport(validEmployees)}
+            onClick={() => onImport(validPayslips)}
           >
-            Create {validEmployees.length || ""} employees
+            Import {validPayslips.length || ""} payslips
           </button>
         </div>
       </div>

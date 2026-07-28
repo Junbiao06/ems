@@ -167,7 +167,7 @@ export function RegistrationPasswordForm({
           </label>
 
           <button
-            className="flex h-12 w-full items-center justify-center gap-3 rounded-lg bg-text text-sm font-extrabold text-surface shadow-md transition hover:-translate-y-px hover:bg-text/85 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-12 w-full items-center justify-center gap-3 rounded-lg bg-text text-sm font-extrabold text-surface shadow-md transition hover:bg-text/85 disabled:cursor-not-allowed disabled:opacity-50"
             type="submit"
           >
             Complete registration

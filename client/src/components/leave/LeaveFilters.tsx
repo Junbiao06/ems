@@ -82,9 +82,9 @@ export function LeaveFilters({
           onChange={(event) => onFilterChange("type", event.target.value)}
         >
           <option value="">Type</option>
-          <option value="ANNUAL">Annual leave</option>
-          <option value="SICK">Sick leave</option>
-          <option value="CASUAL">Casual leave</option>
+          <option value="ANNUAL">Annual</option>
+          <option value="SICK">Sick</option>
+          <option value="CASUAL">Casual</option>
         </select>
       </label>
 
@@ -96,6 +96,9 @@ export function LeaveFilters({
           onChange={(event) => onFilterChange("status", event.target.value)}
         >
           <option value="">Status</option>
+          {showEmployeeFilters ? (
+            <option value="ACTIVE_TODAY">On leave today</option>
+          ) : null}
           <option value="PENDING">Pending</option>
           <option value="APPROVED">Approved</option>
           <option value="REJECTED">Rejected</option>

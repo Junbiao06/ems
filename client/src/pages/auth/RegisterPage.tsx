@@ -1,6 +1,6 @@
 import { useState } from "react";
+import { VerificationCodeForm } from "../../components/auth/VerificationCodeForm";
 import { InvitationDetails } from "../../components/register/InvitationDetails";
-import { RegistrationCodeForm } from "../../components/register/RegistrationCodeForm";
 import { RegistrationComplete } from "../../components/register/RegistrationComplete";
 import { RegistrationPasswordForm } from "../../components/register/RegistrationPasswordForm";
 import { LoginHero } from "../../components/login/LoginHero";
@@ -13,7 +13,10 @@ export function RegisterPage() {
   const renderForm = () => {
     if (step === "code") {
       return (
-        <RegistrationCodeForm
+        <VerificationCodeForm
+          backLabel="Back to invitation"
+          description="Enter the 6-digit code sent to your invited email address."
+          inputId="registration-code"
           onBack={() => setStep("invitation")}
           onContinue={() => setStep("password")}
         />

@@ -75,3 +75,31 @@ export type GeneratePayslipFormInput = z.input<
 export type GeneratePayslipFormData = z.output<
   typeof GeneratePayslipFormSchema
 >;
+
+export type RawPayslipImportRow = {
+  employeeEmail: string;
+  period: string;
+  basicSalary: string;
+  allowances: string;
+  deductions: string;
+};
+
+export type PayslipImportFieldError = {
+  field: keyof RawPayslipImportRow | "row";
+  message: string;
+};
+
+export type PayslipImportRowResult =
+  | {
+      rowNumber: number;
+      valid: true;
+      raw: RawPayslipImportRow;
+      employeeName: string;
+      data: GeneratePayslipFormData;
+    }
+  | {
+      rowNumber: number;
+      valid: false;
+      raw: RawPayslipImportRow;
+      errors: PayslipImportFieldError[];
+    };

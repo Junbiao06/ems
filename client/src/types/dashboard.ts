@@ -7,14 +7,19 @@ export type AdminDashboardData = {
   checkedInToday: number;
   lateToday: number;
   pendingLeaves: number;
-  attendanceTrend: AttendanceTrendItem[];
+  teamActivity: AdminTeamActivity;
 };
 
-export type AttendanceTrendItem = {
-  dateLabel: string;
-  onTime: number;
-  late: number;
-  absent: number;
+export type TeamActivityItem = {
+  employeeId: string;
+  fullName: string;
+  note: string;
+};
+
+export type AdminTeamActivity = {
+  onLeave: TeamActivityItem[];
+  leaveRequests: TeamActivityItem[];
+  lateArrivals: TeamActivityItem[];
 };
 
 export type EmployeeDashboardData = {

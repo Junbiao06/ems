@@ -5,6 +5,7 @@ import { AttendanceFilters } from "../../components/attendance/AttendanceFilters
 import { AttendanceHistory } from "../../components/attendance/AttendanceHistory";
 import { AttendanceStats } from "../../components/attendance/AttendanceStats";
 import { TodayAttendance } from "../../components/attendance/TodayAttendance";
+import { PageHeader } from "../../components/layout/PageHeader";
 import { mockAttendance } from "../../mocks/attendance";
 import {
   AttendanceDayTypeSchema,
@@ -185,17 +186,11 @@ export function AttendancePage() {
 
   return (
     <div className="mx-auto w-full max-w-7xl">
-      <header>
-        <p className="text-xs font-extrabold tracking-widest text-text-subtle uppercase">
-          My workday
-        </p>
-        <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-text sm:text-4xl">
-          Attendance
-        </h1>
-        <p className="mt-2 text-sm leading-6 text-text-muted">
-          Track your work hours and review recent attendance.
-        </p>
-      </header>
+      <PageHeader
+        eyebrow="My workday"
+        title="Attendance"
+        description="Track your work hours and review recent attendance."
+      />
 
       <div className="mt-8 grid gap-6">
         <TodayAttendance

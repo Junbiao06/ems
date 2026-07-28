@@ -6,6 +6,7 @@ import {
   type GeneratePayslipFormInput,
   type PayslipRecord,
 } from "@/types/payslip";
+import { FormErrorSummary } from "../ui/FormErrorSummary";
 import { Modal } from "../ui/Modal";
 
 type GeneratePayslipModalProps = {
@@ -141,14 +142,6 @@ export function GeneratePayslipModal({
     onSubmit(result.data);
   }
 
-  function errorFor(field: keyof GeneratePayslipFormInput) {
-    return errors[field] ? (
-      <span className="text-xs font-semibold text-danger-text">
-        {errors[field]}
-      </span>
-    ) : null;
-  }
-
   return (
     <Modal
       title="Generate payslip"
@@ -173,7 +166,6 @@ export function GeneratePayslipModal({
                 </option>
               ))}
             </select>
-            {errorFor("employeeId")}
           </label>
 
           <label className={fieldClassName}>
@@ -186,7 +178,6 @@ export function GeneratePayslipModal({
               value={values.period}
               onChange={(event) => updateField("period", event.target.value)}
             />
-            {errorFor("period")}
           </label>
 
           <label className={fieldClassName}>
@@ -212,7 +203,6 @@ export function GeneratePayslipModal({
                 updateField("basicSalaryMinor", event.target.value)
               }
             />
-            {errorFor("basicSalaryMinor")}
           </label>
 
           <label className={fieldClassName}>
@@ -228,7 +218,6 @@ export function GeneratePayslipModal({
                 updateField("allowancesMinor", event.target.value)
               }
             />
-            {errorFor("allowancesMinor")}
           </label>
 
           <label className={fieldClassName}>
@@ -244,7 +233,6 @@ export function GeneratePayslipModal({
                 updateField("deductionsMinor", event.target.value)
               }
             />
-            {errorFor("deductionsMinor")}
           </label>
 
           <div className="rounded-xl border border-border bg-brand-soft p-4">
@@ -254,6 +242,17 @@ export function GeneratePayslipModal({
             </p>
           </div>
         </div>
+
+        <FormErrorSummary
+          className="mt-5"
+          items={[
+            { field: "Employee", message: errors.employeeId },
+            { field: "Pay period", message: errors.period },
+            { field: "Basic salary", message: errors.basicSalaryMinor },
+            { field: "Allowances", message: errors.allowancesMinor },
+            { field: "Deductions", message: errors.deductionsMinor },
+          ]}
+        />
 
         <div className="mt-8 flex justify-end gap-3 border-t border-border pt-5">
           <button

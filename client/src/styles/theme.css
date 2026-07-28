@@ -26,12 +26,6 @@
   --ui-sidebar-warning: oklch(0.72 0.1475 35);
   --ui-sidebar-warning-text: oklch(0.428 0.2577 29.23);
 
-  --ui-chart-on-time: #6f9c76;
-  --ui-chart-late: #d3a13b;
-  --ui-chart-absent: #d98b82;
-  --ui-chart-grid: #e3ded5;
-  --ui-chart-axis: #766f65;
-
   --ui-success-surface: oklch(0.95 0.05 145);
   --ui-success-border: oklch(0.78 0.1 145);
   --ui-success-text: oklch(0.38 0.12 145);

@@ -4,6 +4,7 @@ import {
   EmployeeProfileUpdateSchema,
   type Profile,
 } from "@/types/profile";
+import { FormErrorSummary } from "../ui/FormErrorSummary";
 
 type ProfileFormProps = {
   profile: Profile;
@@ -85,11 +86,6 @@ export function ProfileForm({ profile, onSubmit }: ProfileFormProps) {
                 setErrors({});
               }}
             />
-            {errors.displayName ? (
-              <span className="text-xs font-semibold text-danger-text">
-                {errors.displayName}
-              </span>
-            ) : null}
           </label>
           <label className={fieldClassName}>
             <span>Email</span>
@@ -108,6 +104,13 @@ export function ProfileForm({ profile, onSubmit }: ProfileFormProps) {
             />
           </label>
         </div>
+
+        <FormErrorSummary
+          className="mt-5"
+          items={[
+            { field: "Display name", message: errors.displayName },
+          ]}
+        />
 
         <div className="mt-8 flex justify-end border-t border-border pt-5">
           <button
@@ -173,11 +176,6 @@ export function ProfileForm({ profile, onSubmit }: ProfileFormProps) {
               }));
             }}
           />
-          {errors.phone ? (
-            <span className="text-xs font-semibold text-danger-text">
-              {errors.phone}
-            </span>
-          ) : null}
         </label>
         <label className={`${fieldClassName} sm:col-span-2`}>
           <span>Bio</span>
@@ -194,20 +192,19 @@ export function ProfileForm({ profile, onSubmit }: ProfileFormProps) {
               }));
             }}
           />
-          <span className="flex items-center justify-between gap-4">
-            {errors.bio ? (
-              <span className="text-xs font-semibold text-danger-text">
-                {errors.bio}
-              </span>
-            ) : (
-              <span />
-            )}
-            <span className="text-xs font-semibold text-text-subtle">
-              {bio.length}/100
-            </span>
+          <span className="text-right text-xs font-semibold text-text-subtle">
+            {bio.length}/100
           </span>
         </label>
       </div>
+
+      <FormErrorSummary
+        className="mt-5"
+        items={[
+          { field: "Phone number", message: errors.phone },
+          { field: "Bio", message: errors.bio },
+        ]}
+      />
 
       <div className="mt-8 flex justify-end border-t border-border pt-5">
         <button

@@ -3,7 +3,9 @@ import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 import { EmployeeDetailsModal } from "../../components/employees/EmployeeDetailsModal";
+import { PageHeader } from "../../components/layout/PageHeader";
 import { ApplyLeaveModal } from "../../components/leave/ApplyLeaveModal";
+import { EmployeeLeaveStats } from "../../components/leave/EmployeeLeaveStats";
 import { LeaveDetailsModal } from "../../components/leave/LeaveDetailsModal";
 import { LeaveFilters } from "../../components/leave/LeaveFilters";
 import { LeaveHistory } from "../../components/leave/LeaveHistory";
@@ -11,7 +13,11 @@ import { Pagination } from "../../components/ui/Pagination";
 import { getCurrentMockUser } from "../../mocks/auth";
 import { leaveDecisionEmailTemplates } from "../../mocks/leaveEmailTemplates";
 import { mockEmployees } from "../../mocks/employees";
-import { mockLeaves } from "../../mocks/leaves";
+import {
+  mockAnnualLeaveAllowances,
+  mockLeaves,
+} from "../../mocks/leaves";
+import { cn } from "../../utils/cn";
 import {
   DepartmentSchema,
   type EmployeeListItem,
@@ -24,6 +30,15 @@ import {
 } from "@/types/leave";
 
 const pageSize = 8;
+
+function currentBusinessDate() {
+  return new Intl.DateTimeFormat("en-CA", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    timeZone: "Asia/Shanghai",
+  }).format(new Date());
+}
 
 export function LeavePage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -50,6 +65,12 @@ export function LeavePage() {
     : "";
   const selectedType = typeResult.success ? typeResult.data : "";
   const selectedStatus = statusResult.success ? statusResult.data : "";
+  const activeToday =
+    isAdmin && searchParams.get("active") === "today";
+  const businessDate = currentBusinessDate();
+  const selectedStatusFilter = activeToday
+    ? "ACTIVE_TODAY"
+    : selectedStatus;
   const visibleRoleLeaves = isAdmin
     ? leaves
     : leaves.filter(
@@ -59,7 +80,8 @@ export function LeavePage() {
     (isAdmin && searchParams.has("search")) ||
     (isAdmin && Boolean(selectedDepartment)) ||
     Boolean(selectedType) ||
-    Boolean(selectedStatus);
+    Boolean(selectedStatus) ||
+    activeToday;
 
   useEffect(() => {
     if (!isAdmin) {
@@ -104,17 +126,26 @@ export function LeavePage() {
         !selectedDepartment ||
         leave.employee.department === selectedDepartment;
       const matchesType = !selectedType || leave.type === selectedType;
-      const matchesStatus = !selectedStatus || leave.status === selectedStatus;
+      const matchesStatus =
+        activeToday || !selectedStatus || leave.status === selectedStatus;
+      const matchesActiveToday =
+        !activeToday ||
+        (leave.status === "APPROVED" &&
+          leave.startDate <= businessDate &&
+          leave.endDate >= businessDate);
 
       return (
         matchesSearch &&
         matchesDepartment &&
         matchesType &&
-        matchesStatus
+        matchesStatus &&
+        matchesActiveToday
       );
     });
   }, [
     isAdmin,
+    activeToday,
+    businessDate,
     searchParams,
     selectedDepartment,
     selectedStatus,
@@ -152,10 +183,19 @@ export function LeavePage() {
     setSearchParams((currentParams) => {
       const nextParams = new URLSearchParams(currentParams);
 
-      if (value) {
+      if (name === "status" && value === "ACTIVE_TODAY") {
+        nextParams.delete("status");
+        nextParams.set("active", "today");
+      } else if (value) {
         nextParams.set(name, value);
+        if (name === "status") {
+          nextParams.delete("active");
+        }
       } else {
         nextParams.delete(name);
+        if (name === "status") {
+          nextParams.delete("active");
+        }
       }
 
       nextParams.delete("page");
@@ -238,34 +278,43 @@ export function LeavePage() {
 
   return (
     <div className="mx-auto w-full max-w-7xl">
-      <header className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <p className="text-xs font-extrabold tracking-widest text-text-subtle uppercase">
-            {isAdmin ? "Team requests" : "Time away"}
-          </p>
-          <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-text sm:text-4xl">
-            Leave
-          </h1>
-          <p className="mt-2 text-sm leading-6 text-text-muted">
-            {isAdmin
-              ? "Review employee leave requests and their current status."
-              : "Review your leave requests and approval history."}
-          </p>
-        </div>
+      <PageHeader
+        eyebrow={isAdmin ? "Team requests" : "Time away"}
+        title="Leave"
+        description={
+          isAdmin
+            ? "Review employee leave requests and their current status."
+            : "Review your leave requests and approval history."
+        }
+        actions={
+          !isAdmin && currentEmployee ? (
+            <button
+              className="flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-text px-4 text-sm font-bold text-surface transition hover:bg-text/85 md:w-auto"
+              type="button"
+              onClick={() => setApplyModalOpen(true)}
+            >
+              <Plus className="size-4" aria-hidden="true" />
+              Apply for leave
+            </button>
+          ) : null
+        }
+      />
 
-        {!isAdmin && currentEmployee ? (
-          <button
-            className="flex h-11 items-center justify-center gap-2 rounded-lg bg-text px-4 text-sm font-bold text-surface transition hover:bg-text/85"
-            type="button"
-            onClick={() => setApplyModalOpen(true)}
-          >
-            <Plus className="size-4" aria-hidden="true" />
-            Apply for leave
-          </button>
-        ) : null}
-      </header>
+      {!isAdmin && currentEmployee ? (
+        <EmployeeLeaveStats
+          annualAllowance={
+            mockAnnualLeaveAllowances[currentEmployee.id] ?? 0
+          }
+          leaves={visibleRoleLeaves}
+        />
+      ) : null}
 
-      <section className="mt-8 overflow-hidden rounded-xl border border-border bg-surface shadow-sm">
+      <section
+        className={cn(
+          "overflow-hidden rounded-xl border border-border bg-surface shadow-sm",
+          isAdmin ? "mt-8" : "mt-6",
+        )}
+      >
         <header className="flex items-center justify-between gap-4 border-b border-border px-5 py-5 sm:px-6">
           <div>
             <h2 className="text-xl font-extrabold text-text">Leave requests</h2>
@@ -281,7 +330,7 @@ export function LeavePage() {
           searchValue={searchValue}
           department={selectedDepartment}
           type={selectedType}
-          status={selectedStatus}
+          status={selectedStatusFilter}
           hasFilters={hasFilters}
           onSearchChange={setSearchValue}
           onFilterChange={updateFilter}

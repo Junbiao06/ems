@@ -1,12 +1,14 @@
 import { lazy, Suspense } from "react";
 import { Toaster } from "react-hot-toast";
 import { Navigate, Route, Routes } from "react-router-dom";
+import { PageLoadingFallback } from "./components/ui/PageLoadingFallback";
 import { AppLayout } from "./layouts/AppLayout";
 import { getCurrentMockUser } from "./mocks/auth";
 import { ForgotPasswordPage } from "./pages/auth/ForgotPasswordPage";
 import { LoginPage } from "./pages/auth/LoginPage";
 import { RegisterPage } from "./pages/auth/RegisterPage";
 import { DashboardPage } from "./pages/dashboard/DashboardPage";
+import { NotFoundPage } from "./pages/errors/NotFoundPage";
 
 const EmployeesPage = lazy(async () => {
   const employeesModule = await import("./pages/employees/EmployeesPage");
@@ -21,9 +23,8 @@ const AttendancePage = lazy(async () => {
 });
 
 const AdminAttendancePage = lazy(async () => {
-  const attendanceModule = await import(
-    "./pages/attendance/AdminAttendancePage"
-  );
+  const attendanceModule =
+    await import("./pages/attendance/AdminAttendancePage");
 
   return { default: attendanceModule.AdminAttendancePage };
 });
@@ -41,9 +42,7 @@ const PayslipsPage = lazy(async () => {
 });
 
 const PayslipDetailsPage = lazy(async () => {
-  const payslipsModule = await import(
-    "./pages/payslips/PayslipDetailsPage"
-  );
+  const payslipsModule = await import("./pages/payslips/PayslipDetailsPage");
 
   return { default: payslipsModule.PayslipDetailsPage };
 });
@@ -60,11 +59,7 @@ function AttendanceRoute() {
     currentUser.role === "ADMIN" ? AdminAttendancePage : AttendancePage;
 
   return (
-    <Suspense
-      fallback={
-        <div className="h-72 animate-pulse rounded-xl border border-border bg-surface-muted" />
-      }
-    >
+    <Suspense fallback={<PageLoadingFallback />}>
       <Page />
     </Suspense>
   );
@@ -96,27 +91,16 @@ function App() {
           <Route
             path="/employees"
             element={
-              <Suspense
-                fallback={
-                  <div className="h-72 animate-pulse rounded-xl border border-border bg-surface-muted" />
-                }
-              >
+              <Suspense fallback={<PageLoadingFallback />}>
                 <EmployeesPage />
               </Suspense>
             }
           />
-          <Route
-            path="/attendance"
-            element={<AttendanceRoute />}
-          />
+          <Route path="/attendance" element={<AttendanceRoute />} />
           <Route
             path="/leave"
             element={
-              <Suspense
-                fallback={
-                  <div className="h-72 animate-pulse rounded-xl border border-border bg-surface-muted" />
-                }
-              >
+              <Suspense fallback={<PageLoadingFallback />}>
                 <LeavePage />
               </Suspense>
             }
@@ -124,11 +108,7 @@ function App() {
           <Route
             path="/payslips"
             element={
-              <Suspense
-                fallback={
-                  <div className="h-72 animate-pulse rounded-xl border border-border bg-surface-muted" />
-                }
-              >
+              <Suspense fallback={<PageLoadingFallback />}>
                 <PayslipsPage />
               </Suspense>
             }
@@ -136,17 +116,14 @@ function App() {
           <Route
             path="/settings"
             element={
-              <Suspense
-                fallback={
-                  <div className="h-72 animate-pulse rounded-xl border border-border bg-surface-muted" />
-                }
-              >
+              <Suspense fallback={<PageLoadingFallback />}>
                 <SettingsPage />
               </Suspense>
             }
           />
         </Route>
         <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <Toaster
         position="top-center"

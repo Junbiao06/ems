@@ -1,17 +1,19 @@
 import { FileUp, LoaderCircle } from "lucide-react";
 import { cn } from "../../utils/cn";
 
-type EmployeeImportDropzoneProps = {
+type CsvImportDropzoneProps = {
   compact?: boolean;
+  dataLabel: string;
   parsing: boolean;
   onFileSelected: (file: File) => void;
 };
 
-export function EmployeeImportDropzone({
+export function CsvImportDropzone({
   compact = false,
+  dataLabel,
   parsing,
   onFileSelected,
-}: EmployeeImportDropzoneProps) {
+}: CsvImportDropzoneProps) {
   return (
     <label
       className={cn(
@@ -29,9 +31,11 @@ export function EmployeeImportDropzone({
         disabled={parsing}
         onChange={(event) => {
           const file = event.target.files?.[0];
+
           if (file) {
             onFileSelected(file);
           }
+
           event.currentTarget.value = "";
         }}
       />
@@ -51,10 +55,11 @@ export function EmployeeImportDropzone({
       ) : (
         <>
           <p className="mt-4 font-extrabold text-text">
-            {parsing ? "Parsing employee data..." : "Choose an employee CSV"}
+            {parsing ? `Parsing ${dataLabel} data...` : "Choose CSV file"}
           </p>
           <p className="mt-2 max-w-sm text-sm leading-6 text-text-muted">
-            The file stays in your browser. Maximum 5 MiB and 1,000 employee rows.
+            The file stays in your browser. Maximum 5 MB and 1,000{" "}
+            {dataLabel} rows.
           </p>
         </>
       )}

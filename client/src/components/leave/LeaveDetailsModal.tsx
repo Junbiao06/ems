@@ -18,9 +18,9 @@ type LeaveDetailsModalProps = {
 };
 
 const leaveTypeLabels = {
-  SICK: "Sick leave",
-  CASUAL: "Casual leave",
-  ANNUAL: "Annual leave",
+  SICK: "Sick",
+  CASUAL: "Casual",
+  ANNUAL: "Annual",
 };
 
 function formatDate(value: string) {

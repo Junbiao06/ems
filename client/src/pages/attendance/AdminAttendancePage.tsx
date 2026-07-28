@@ -2,6 +2,7 @@ import { RotateCcw, Search, UserSearch } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { AdminAttendanceTable } from "../../components/attendance/AdminAttendanceTable";
+import { PageHeader } from "../../components/layout/PageHeader";
 import { Pagination } from "../../components/ui/Pagination";
 import { mockAdminAttendance } from "../../mocks/adminAttendance";
 import { AttendanceStatusSchema } from "@/types/attendance";
@@ -113,21 +114,15 @@ export function AdminAttendancePage() {
 
   return (
     <div className="mx-auto w-full max-w-7xl">
-      <header>
-        <p className="text-xs font-extrabold tracking-widest text-text-subtle uppercase">
-          Team records
-        </p>
-        <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-text sm:text-4xl">
-          Attendance
-        </h1>
-        <p className="mt-2 text-sm leading-6 text-text-muted">
-          Review employee check-ins and completed workdays.
-        </p>
-      </header>
+      <PageHeader
+        eyebrow="Team records"
+        title="Attendance"
+        description="Review employee check-ins and completed workdays."
+      />
 
       <section className="mt-8 overflow-hidden rounded-xl border border-border bg-surface shadow-sm">
-        <div className="grid gap-3 border-b border-border p-4 sm:grid-cols-2 lg:grid-cols-[minmax(240px,1fr)_180px_180px_150px_auto] sm:p-5">
-          <label className="grid gap-1.5 sm:col-span-2 lg:col-span-1">
+        <div className="grid gap-3 border-b border-border p-4 sm:grid-cols-2 xl:grid-cols-[minmax(220px,1fr)_160px_160px_140px_auto] sm:p-5">
+          <label className="grid gap-1.5 sm:col-span-2 xl:col-span-1">
             <span className="text-xs font-bold text-text-muted">Employee</span>
             <span className="relative block">
               <Search
@@ -177,7 +172,7 @@ export function AdminAttendancePage() {
             </select>
           </label>
 
-          <div className="grid gap-1.5 sm:col-span-2 lg:col-span-1">
+          <div className="grid gap-1.5 sm:col-span-2 xl:col-span-1">
             <span className="invisible text-xs font-bold" aria-hidden="true">Action</span>
             <button
               className="flex h-11 items-center justify-center gap-2 rounded-lg border border-border px-4 text-sm font-bold text-text transition hover:border-border-strong hover:bg-surface-muted disabled:cursor-not-allowed disabled:opacity-40"

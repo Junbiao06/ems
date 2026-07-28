@@ -4,6 +4,7 @@ import {
   type CreateLeaveFormData,
   type CreateLeaveFormInput,
 } from "@/types/leave";
+import { FormErrorSummary } from "../ui/FormErrorSummary";
 import { Modal } from "../ui/Modal";
 
 type ApplyLeaveModalProps = {
@@ -89,15 +90,10 @@ export function ApplyLeaveModal({
             value={values.type}
             onChange={(event) => updateField("type", event.target.value)}
           >
-            <option value="ANNUAL">Annual leave</option>
-            <option value="SICK">Sick leave</option>
-            <option value="CASUAL">Casual leave</option>
+            <option value="ANNUAL">Annual</option>
+            <option value="SICK">Sick</option>
+            <option value="CASUAL">Casual</option>
           </select>
-          {errors.type ? (
-            <span className="text-xs font-semibold text-danger-text">
-              {errors.type}
-            </span>
-          ) : null}
         </label>
 
         <div className="grid gap-4 sm:grid-cols-2">
@@ -110,11 +106,6 @@ export function ApplyLeaveModal({
               value={values.startDate}
               onChange={(event) => updateField("startDate", event.target.value)}
             />
-            {errors.startDate ? (
-              <span className="text-xs font-semibold text-danger-text">
-                {errors.startDate}
-              </span>
-            ) : null}
           </label>
 
           <label className="grid gap-2 text-sm font-bold text-text">
@@ -126,11 +117,6 @@ export function ApplyLeaveModal({
               value={values.endDate}
               onChange={(event) => updateField("endDate", event.target.value)}
             />
-            {errors.endDate ? (
-              <span className="text-xs font-semibold text-danger-text">
-                {errors.endDate}
-              </span>
-            ) : null}
           </label>
         </div>
 
@@ -143,19 +129,19 @@ export function ApplyLeaveModal({
             value={values.reason}
             onChange={(event) => updateField("reason", event.target.value)}
           />
-          <span className="flex items-center justify-between gap-4">
-            {errors.reason ? (
-              <span className="text-xs font-semibold text-danger-text">
-                {errors.reason}
-              </span>
-            ) : (
-              <span />
-            )}
-            <span className="text-xs font-semibold text-text-subtle">
-              {values.reason.length}/100
-            </span>
+          <span className="text-right text-xs font-semibold text-text-subtle">
+            {values.reason.length}/100
           </span>
         </label>
+
+        <FormErrorSummary
+          items={[
+            { field: "Leave type", message: errors.type },
+            { field: "Start date", message: errors.startDate },
+            { field: "End date", message: errors.endDate },
+            { field: "Reason", message: errors.reason },
+          ]}
+        />
 
         <div className="flex justify-end gap-3 border-t border-border pt-5">
           <button

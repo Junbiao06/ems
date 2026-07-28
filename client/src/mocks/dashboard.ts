@@ -2,6 +2,50 @@ import type {
   AdminDashboardData,
   EmployeeDashboardData,
 } from "@/types/dashboard";
+import { mockAdminAttendance } from "./adminAttendance";
+import { mockLeaves } from "./leaves";
+
+const businessTimeZone = "Asia/Shanghai";
+
+function currentBusinessDate() {
+  return new Intl.DateTimeFormat("en-CA", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    timeZone: businessTimeZone,
+  }).format(new Date());
+}
+
+function formatShortDate(value: string) {
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    timeZone: businessTimeZone,
+  }).format(new Date(`${value}T00:00:00+08:00`));
+}
+
+function formatLeaveDates(startDate: string, endDate: string) {
+  const start = formatShortDate(startDate);
+  const end = formatShortDate(endDate);
+
+  return startDate === endDate ? start : `${start} – ${end}`;
+}
+
+function formatCheckInTime(value: string) {
+  return new Intl.DateTimeFormat("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+    timeZone: businessTimeZone,
+  }).format(new Date(value));
+}
+
+const businessDate = currentBusinessDate();
+const leaveTypeLabels = {
+  SICK: "Sick",
+  CASUAL: "Casual",
+  ANNUAL: "Annual",
+};
 
 export const mockAdminDashboard: AdminDashboardData = {
   role: "ADMIN",
@@ -10,52 +54,42 @@ export const mockAdminDashboard: AdminDashboardData = {
   activeEmployees: 136,
   totalDepartments: 10,
   checkedInToday: 121,
-  lateToday: 7,
-  pendingLeaves: 9,
-  attendanceTrend: [
-    {
-      dateLabel: "Jul 14",
-      onTime: 121,
-      late: 5,
-      absent: 10,
-    },
-    {
-      dateLabel: "Jul 15",
-      onTime: 123,
-      late: 6,
-      absent: 7,
-    },
-    {
-      dateLabel: "Jul 16",
-      onTime: 119,
-      late: 8,
-      absent: 9,
-    },
-    {
-      dateLabel: "Jul 17",
-      onTime: 124,
-      late: 4,
-      absent: 8,
-    },
-    {
-      dateLabel: "Jul 20",
-      onTime: 122,
-      late: 5,
-      absent: 9,
-    },
-    {
-      dateLabel: "Jul 21",
-      onTime: 126,
-      late: 3,
-      absent: 7,
-    },
-    {
-      dateLabel: "Jul 22",
-      onTime: 114,
-      late: 7,
-      absent: 15,
-    },
-  ],
+  lateToday: 15,
+  pendingLeaves: 15,
+  teamActivity: {
+    onLeave: mockLeaves
+      .filter(
+        (leave) =>
+          leave.status === "APPROVED" &&
+          leave.startDate <= businessDate &&
+          leave.endDate >= businessDate,
+      )
+      .map((leave) => ({
+        employeeId: leave.employee.id,
+        fullName: leave.employee.fullName,
+        note: formatLeaveDates(leave.startDate, leave.endDate),
+      })),
+    leaveRequests: mockLeaves
+      .filter((leave) => leave.status === "PENDING")
+      .map((leave) => ({
+        employeeId: leave.employee.id,
+        fullName: leave.employee.fullName,
+        note: `${leaveTypeLabels[leave.type]} · ${formatLeaveDates(
+          leave.startDate,
+          leave.endDate,
+        )}`,
+      })),
+    lateArrivals: mockAdminAttendance
+      .filter(
+        (record) =>
+          record.businessDate === businessDate && record.status === "LATE",
+      )
+      .map((record) => ({
+        employeeId: record.employee.id,
+        fullName: record.employee.fullName,
+        note: `Checked in at ${formatCheckInTime(record.checkInAt)}`,
+      })),
+  },
 };
 
 export const mockEmployeeDashboard: EmployeeDashboardData = {

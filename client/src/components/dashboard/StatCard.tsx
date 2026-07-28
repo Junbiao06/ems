@@ -9,10 +9,12 @@ type StatCardProps = {
 };
 
 const toneClasses = {
-  brand: "bg-brand text-on-brand",
-  success: "bg-success-surface text-success-text",
-  warning: "bg-warning-surface text-warning-text",
-  info: "bg-info-surface text-info-text",
+  brand: "border border-brand/40 bg-brand/15 text-on-brand",
+  success:
+    "border border-success-border bg-success-surface text-success-text",
+  warning:
+    "border border-warning-border bg-warning-surface text-warning-text",
+  info: "border border-info-border bg-info-surface text-info-text",
 };
 
 export function StatCard({

@@ -1,4 +1,5 @@
 import { AdminAttendanceRecordSchema } from "@/types/attendance";
+import { additionalMockTeamActivity } from "./dashboardActivity";
 
 const employees = {
   jordan: {
@@ -60,14 +61,36 @@ const employees = {
 } as const;
 
 export const mockAdminAttendance = AdminAttendanceRecordSchema.array().parse([
+  ...additionalMockTeamActivity.lateArrivals.map((item, index) => {
+    const checkInTime = item.note.slice(-5);
+
+    return {
+      id: `admin_attendance_activity_${index + 1}`,
+      employeeId: item.employeeId,
+      employee: {
+        id: item.employeeId,
+        fullName: item.fullName,
+        email: `${item.fullName.toLowerCase().replaceAll(" ", ".")}@company.com`,
+        department: "Operations",
+        position: "Team Member",
+      },
+      businessDate: "2026-07-23",
+      checkInAt: `2026-07-23T${checkInTime}:00+08:00`,
+      checkOutAt: null,
+      status: "LATE",
+      workingMinutes: null,
+      dayType: null,
+      checkoutSource: null,
+    };
+  }),
   {
     id: "admin_attendance_013",
     employeeId: employees.jordan.id,
     employee: employees.jordan,
     businessDate: "2026-07-23",
-    checkInAt: "2026-07-23T08:52:00+08:00",
+    checkInAt: "2026-07-23T09:16:00+08:00",
     checkOutAt: null,
-    status: "PRESENT",
+    status: "LATE",
     workingMinutes: null,
     dayType: null,
     checkoutSource: null,
@@ -77,9 +100,9 @@ export const mockAdminAttendance = AdminAttendanceRecordSchema.array().parse([
     employeeId: employees.mia.id,
     employee: employees.mia,
     businessDate: "2026-07-23",
-    checkInAt: "2026-07-23T08:46:00+08:00",
+    checkInAt: "2026-07-23T09:09:00+08:00",
     checkOutAt: "2026-07-23T18:03:00+08:00",
-    status: "PRESENT",
+    status: "LATE",
     workingMinutes: 557,
     dayType: "FULL_DAY",
     checkoutSource: "EMPLOYEE",
@@ -93,18 +116,6 @@ export const mockAdminAttendance = AdminAttendanceRecordSchema.array().parse([
     checkOutAt: "2026-07-23T18:11:00+08:00",
     status: "LATE",
     workingMinutes: 537,
-    dayType: "FULL_DAY",
-    checkoutSource: "EMPLOYEE",
-  },
-  {
-    id: "admin_attendance_010",
-    employeeId: employees.olivia.id,
-    employee: employees.olivia,
-    businessDate: "2026-07-23",
-    checkInAt: "2026-07-23T08:41:00+08:00",
-    checkOutAt: "2026-07-23T17:36:00+08:00",
-    status: "PRESENT",
-    workingMinutes: 535,
     dayType: "FULL_DAY",
     checkoutSource: "EMPLOYEE",
   },
@@ -125,36 +136,12 @@ export const mockAdminAttendance = AdminAttendanceRecordSchema.array().parse([
     employeeId: employees.leo.id,
     employee: employees.leo,
     businessDate: "2026-07-23",
-    checkInAt: "2026-07-23T08:57:00+08:00",
+    checkInAt: "2026-07-23T09:06:00+08:00",
     checkOutAt: "2026-07-23T18:00:00+08:00",
-    status: "PRESENT",
+    status: "LATE",
     workingMinutes: 543,
     dayType: "FULL_DAY",
     checkoutSource: "AUTO",
-  },
-  {
-    id: "admin_attendance_007",
-    employeeId: employees.henry.id,
-    employee: employees.henry,
-    businessDate: "2026-07-23",
-    checkInAt: "2026-07-23T08:38:00+08:00",
-    checkOutAt: "2026-07-23T14:22:00+08:00",
-    status: "PRESENT",
-    workingMinutes: 344,
-    dayType: "HALF_DAY",
-    checkoutSource: "EMPLOYEE",
-  },
-  {
-    id: "admin_attendance_006",
-    employeeId: employees.grace.id,
-    employee: employees.grace,
-    businessDate: "2026-07-23",
-    checkInAt: "2026-07-23T08:49:00+08:00",
-    checkOutAt: "2026-07-23T12:08:00+08:00",
-    status: "PRESENT",
-    workingMinutes: 199,
-    dayType: "SHORT_DAY",
-    checkoutSource: "EMPLOYEE",
   },
   {
     id: "admin_attendance_005",

@@ -7,6 +7,7 @@ import {
   type EmployeeListItem,
 } from "@/types/employee";
 import { cn } from "../../utils/cn";
+import { FormErrorSummary } from "../ui/FormErrorSummary";
 
 type EmployeeFormProps = {
   existingEmails: string[];
@@ -80,12 +81,6 @@ export function EmployeeForm({
     onSubmit(result.data);
   }
 
-  function errorFor(field: keyof EmployeeCreateFormInput) {
-    return errors[field] ? (
-      <span className="text-xs font-semibold text-danger-text">{errors[field]}</span>
-    ) : null;
-  }
-
   return (
     <form className="p-5 sm:p-7" noValidate onSubmit={handleSubmit}>
       <section>
@@ -101,7 +96,6 @@ export function EmployeeForm({
               name="firstName"
               autoFocus
             />
-            {errorFor("firstName")}
           </label>
           <label className={fieldClassName}>
             <span>Last name</span>
@@ -110,7 +104,6 @@ export function EmployeeForm({
               defaultValue={initialEmployee?.lastName}
               name="lastName"
             />
-            {errorFor("lastName")}
           </label>
           <label className={cn(fieldClassName, "sm:col-span-2")}>
             <span>Work email</span>
@@ -122,7 +115,6 @@ export function EmployeeForm({
               autoComplete="email"
               placeholder="name@company.com"
             />
-            {errorFor("email")}
           </label>
           <label className={fieldClassName}>
             <span>Phone number</span>
@@ -137,7 +129,6 @@ export function EmployeeForm({
               autoComplete="tel"
               placeholder="13500000000"
             />
-            {errorFor("phone")}
           </label>
           <label className={fieldClassName}>
             <span>Join date</span>
@@ -147,7 +138,6 @@ export function EmployeeForm({
               name="joinDate"
               type="date"
             />
-            {errorFor("joinDate")}
           </label>
         </div>
       </section>
@@ -173,7 +163,6 @@ export function EmployeeForm({
                 </option>
               ))}
             </select>
-            {errorFor("department")}
           </label>
           <label className={fieldClassName}>
             <span>Position</span>
@@ -182,7 +171,6 @@ export function EmployeeForm({
               defaultValue={initialEmployee?.position}
               name="position"
             />
-            {errorFor("position")}
           </label>
           <label className={fieldClassName}>
             <span>Basic salary</span>
@@ -195,7 +183,6 @@ export function EmployeeForm({
               min="0"
               step="0.01"
             />
-            {errorFor("basicSalaryMinor")}
           </label>
           <label className={fieldClassName}>
             <span>Currency</span>
@@ -206,7 +193,6 @@ export function EmployeeForm({
             >
               <option value="CNY">CNY</option>
             </select>
-            {errorFor("currency")}
           </label>
           <label className={fieldClassName}>
             <span>Allowances</span>
@@ -219,7 +205,6 @@ export function EmployeeForm({
               min="0"
               step="0.01"
             />
-            {errorFor("allowancesMinor")}
           </label>
           <label className={fieldClassName}>
             <span>Deductions</span>
@@ -232,7 +217,6 @@ export function EmployeeForm({
               min="0"
               step="0.01"
             />
-            {errorFor("deductionsMinor")}
           </label>
           <label className={cn(fieldClassName, "sm:col-span-2")}>
             <span>Bio (optional)</span>
@@ -249,15 +233,30 @@ export function EmployeeForm({
                 }));
               }}
             />
-            <span className="flex items-center justify-between gap-4">
-              {errorFor("bio") ?? <span />}
-              <span className="text-xs font-semibold text-text-subtle">
-                {bio.length}/100
-              </span>
+            <span className="text-right text-xs font-semibold text-text-subtle">
+              {bio.length}/100
             </span>
           </label>
         </div>
       </section>
+
+      <FormErrorSummary
+        className="mt-7"
+        items={[
+          { field: "First name", message: errors.firstName },
+          { field: "Last name", message: errors.lastName },
+          { field: "Work email", message: errors.email },
+          { field: "Phone number", message: errors.phone },
+          { field: "Join date", message: errors.joinDate },
+          { field: "Department", message: errors.department },
+          { field: "Position", message: errors.position },
+          { field: "Basic salary", message: errors.basicSalaryMinor },
+          { field: "Currency", message: errors.currency },
+          { field: "Allowances", message: errors.allowancesMinor },
+          { field: "Deductions", message: errors.deductionsMinor },
+          { field: "Bio", message: errors.bio },
+        ]}
+      />
 
       <div className="sticky bottom-0 mt-8 flex justify-end gap-3 border-t border-border bg-surface py-5">
         <button

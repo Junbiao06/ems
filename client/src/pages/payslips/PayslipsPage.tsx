@@ -1,9 +1,11 @@
-import { Plus, ReceiptText } from "lucide-react";
+import { Plus, ReceiptText, Upload } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 import { EmployeeDetailsModal } from "../../components/employees/EmployeeDetailsModal";
+import { PageHeader } from "../../components/layout/PageHeader";
 import { GeneratePayslipModal } from "../../components/payslips/GeneratePayslipModal";
+import { ImportPayslipsModal } from "../../components/payslips/ImportPayslipsModal";
 import { PayslipFilters } from "../../components/payslips/PayslipFilters";
 import { PayslipList } from "../../components/payslips/PayslipList";
 import { Pagination } from "../../components/ui/Pagination";
@@ -11,6 +13,7 @@ import { getCurrentMockUser } from "../../mocks/auth";
 import { mockEmployees } from "../../mocks/employees";
 import {
   addMockPayslip,
+  addMockPayslips,
   getMockPayslips,
 } from "../../mocks/payslips";
 import {
@@ -31,6 +34,43 @@ function currentBusinessPeriod() {
   }).format(new Date());
 }
 
+function createPayslipRecord(
+  input: GeneratePayslipFormData,
+  employees: EmployeeListItem[],
+) {
+  const employee = employees.find(
+    (candidate) => candidate.id === input.employeeId,
+  );
+
+  if (!employee) {
+    return null;
+  }
+
+  const [year, month] = input.period.split("-").map(Number);
+
+  return PayslipRecordSchema.parse({
+    id: crypto.randomUUID(),
+    employee: {
+      id: employee.id,
+      fullName: `${employee.firstName} ${employee.lastName}`,
+      email: employee.email,
+      department: employee.department,
+      position: employee.position,
+    },
+    month,
+    year,
+    basicSalaryMinor: input.basicSalaryMinor,
+    allowancesMinor: input.allowancesMinor,
+    deductionsMinor: input.deductionsMinor,
+    netSalaryMinor:
+      input.basicSalaryMinor +
+      input.allowancesMinor -
+      input.deductionsMinor,
+    currency: "CNY",
+    createdAt: new Date().toISOString(),
+  });
+}
+
 export function PayslipsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchValue, setSearchValue] = useState(
@@ -40,6 +80,7 @@ export function PayslipsPage() {
     ...getMockPayslips(),
   ]);
   const [generateModalOpen, setGenerateModalOpen] = useState(false);
+  const [importModalOpen, setImportModalOpen] = useState(false);
   const [selectedEmployee, setSelectedEmployee] =
     useState<EmployeeListItem | null>(null);
   const currentUser = getCurrentMockUser();
@@ -161,36 +202,11 @@ export function PayslipsPage() {
   }
 
   function generatePayslip(input: GeneratePayslipFormData) {
-    const employee = eligibleEmployees.find(
-      (candidate) => candidate.id === input.employeeId,
-    );
+    const newPayslip = createPayslipRecord(input, eligibleEmployees);
 
-    if (!employee) {
+    if (!newPayslip) {
       return;
     }
-
-    const [year, month] = input.period.split("-").map(Number);
-    const newPayslip = PayslipRecordSchema.parse({
-      id: crypto.randomUUID(),
-      employee: {
-        id: employee.id,
-        fullName: `${employee.firstName} ${employee.lastName}`,
-        email: employee.email,
-        department: employee.department,
-        position: employee.position,
-      },
-      month,
-      year,
-      basicSalaryMinor: input.basicSalaryMinor,
-      allowancesMinor: input.allowancesMinor,
-      deductionsMinor: input.deductionsMinor,
-      netSalaryMinor:
-        input.basicSalaryMinor +
-        input.allowancesMinor -
-        input.deductionsMinor,
-      currency: "CNY",
-      createdAt: new Date().toISOString(),
-    });
 
     addMockPayslip(newPayslip);
     setPayslips((currentPayslips) => [newPayslip, ...currentPayslips]);
@@ -198,6 +214,37 @@ export function PayslipsPage() {
     setSearchParams({});
     setGenerateModalOpen(false);
     toast.success("Payslip generated successfully.");
+  }
+
+  function importPayslips(inputs: GeneratePayslipFormData[]) {
+    const newPayslips = inputs.flatMap((input) => {
+      const payslip = createPayslipRecord(input, eligibleEmployees);
+      return payslip ? [payslip] : [];
+    });
+
+    if (newPayslips.length === 0) {
+      return;
+    }
+
+    addMockPayslips(newPayslips);
+    setPayslips((currentPayslips) => [
+      ...newPayslips,
+      ...currentPayslips,
+    ]);
+    setSearchValue("");
+
+    const importedPeriod = inputs[0].period;
+    setSearchParams(
+      importedPeriod === defaultPeriod
+        ? {}
+        : { period: importedPeriod },
+    );
+    setImportModalOpen(false);
+    toast.success(
+      `${newPayslips.length} ${
+        newPayslips.length === 1 ? "payslip" : "payslips"
+      } imported successfully.`,
+    );
   }
 
   function viewEmployee(payslip: PayslipRecord) {
@@ -212,32 +259,37 @@ export function PayslipsPage() {
 
   return (
     <div className="mx-auto w-full max-w-7xl">
-      <header className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <p className="text-xs font-extrabold tracking-widest text-text-subtle uppercase">
-            {isAdmin ? "Team payroll" : "My payroll"}
-          </p>
-          <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-text sm:text-4xl">
-            Payslips
-          </h1>
-          <p className="mt-2 text-sm leading-6 text-text-muted">
-            {isAdmin
-              ? "Review monthly salary records across the organization."
-              : "Review your monthly salary and deduction history."}
-          </p>
-        </div>
-
-        {isAdmin ? (
-          <button
-            className="flex h-11 items-center justify-center gap-2 rounded-lg bg-text px-4 text-sm font-bold text-surface transition hover:bg-text/85"
-            type="button"
-            onClick={() => setGenerateModalOpen(true)}
-          >
-            <Plus className="size-4" aria-hidden="true" />
-            Generate payslip
-          </button>
-        ) : null}
-      </header>
+      <PageHeader
+        eyebrow={isAdmin ? "Team payroll" : "My payroll"}
+        title="Payslips"
+        description={
+          isAdmin
+            ? "Review monthly salary records across the organization."
+            : "Review your monthly salary and deduction history."
+        }
+        actions={
+          isAdmin ? (
+            <div className="grid grid-cols-2 gap-3 md:flex">
+              <button
+                className="flex h-11 items-center justify-center gap-2 rounded-lg border border-border bg-surface px-4 text-sm font-bold text-text transition hover:border-border-strong hover:bg-surface-muted"
+                type="button"
+                onClick={() => setImportModalOpen(true)}
+              >
+                <Upload className="size-4" aria-hidden="true" />
+                Import
+              </button>
+              <button
+                className="flex h-11 items-center justify-center gap-2 rounded-lg bg-text px-4 text-sm font-bold text-surface transition hover:bg-text/85"
+                type="button"
+                onClick={() => setGenerateModalOpen(true)}
+              >
+                <Plus className="size-4" aria-hidden="true" />
+                Generate payslip
+              </button>
+            </div>
+          ) : null
+        }
+      />
 
       <section className="mt-8 overflow-hidden rounded-xl border border-border bg-surface shadow-sm">
         <header className="border-b border-border px-5 py-5 sm:px-6">
@@ -300,6 +352,15 @@ export function PayslipsPage() {
           existingPayslips={payslips}
           onClose={() => setGenerateModalOpen(false)}
           onSubmit={generatePayslip}
+        />
+      ) : null}
+
+      {importModalOpen ? (
+        <ImportPayslipsModal
+          employees={mockEmployees}
+          existingPayslips={payslips}
+          onClose={() => setImportModalOpen(false)}
+          onImport={importPayslips}
         />
       ) : null}
 

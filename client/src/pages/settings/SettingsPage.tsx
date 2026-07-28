@@ -1,6 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { PageHeader } from "../../components/layout/PageHeader";
 import { ChangePasswordForm } from "../../components/settings/ChangePasswordForm";
 import { ProfileForm } from "../../components/settings/ProfileForm";
 import {
@@ -40,17 +41,11 @@ export function SettingsPage() {
 
   return (
     <div className="mx-auto w-full max-w-5xl">
-      <header>
-        <p className="text-xs font-extrabold tracking-widest text-text-subtle uppercase">
-          My account
-        </p>
-        <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-text sm:text-4xl">
-          Settings
-        </h1>
-        <p className="mt-2 text-sm leading-6 text-text-muted">
-          Manage your profile and account information.
-        </p>
-      </header>
+      <PageHeader
+        eyebrow="My account"
+        title="Settings"
+        description="Manage your profile and account information."
+      />
 
       <section className="mt-8 overflow-hidden rounded-xl border border-border bg-surface shadow-sm">
         <header className="border-b border-border px-5 py-5 sm:px-7">

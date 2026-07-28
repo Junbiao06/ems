@@ -18,7 +18,7 @@ export function AttendanceFilters({
   onClear,
 }: AttendanceFiltersProps) {
   return (
-    <section className="grid gap-3 rounded-xl border border-border bg-surface p-4 shadow-sm sm:grid-cols-2 lg:grid-cols-[minmax(200px,1fr)_220px_180px_auto] sm:p-5">
+    <section className="grid gap-3 rounded-xl border border-border bg-surface p-4 shadow-sm sm:grid-cols-2 xl:grid-cols-[minmax(200px,1fr)_220px_180px_auto] sm:p-5">
       <label className="relative">
         <span className="sr-only">Attendance month</span>
         <CalendarRange
@@ -42,7 +42,7 @@ export function AttendanceFilters({
         >
           <option value="">Day type</option>
           <option value="FULL_DAY">Full day</option>
-          <option value="THREE_QUARTER_DAY">Three-quarter day</option>
+          <option value="THREE_QUARTER_DAY">Three-quarter</option>
           <option value="HALF_DAY">Half day</option>
           <option value="SHORT_DAY">Short day</option>
         </select>
@@ -62,7 +62,7 @@ export function AttendanceFilters({
       </label>
 
       <button
-        className="flex h-11 items-center justify-center gap-2 rounded-lg border border-border px-4 text-sm font-bold text-text transition hover:border-border-strong hover:bg-surface-muted disabled:cursor-not-allowed disabled:opacity-40 sm:col-span-2 lg:col-span-1"
+        className="flex h-11 items-center justify-center gap-2 rounded-lg border border-border px-4 text-sm font-bold text-text transition hover:border-border-strong hover:bg-surface-muted disabled:cursor-not-allowed disabled:opacity-40 sm:col-span-2 xl:col-span-1"
         type="button"
         disabled={!hasFilters}
         onClick={onClear}

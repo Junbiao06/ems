@@ -11,7 +11,7 @@ type AttendanceHistoryProps = {
 
 const dayTypeLabels = {
   FULL_DAY: "Full day",
-  THREE_QUARTER_DAY: "Three-quarter day",
+  THREE_QUARTER_DAY: "Three-quarter",
   HALF_DAY: "Half day",
   SHORT_DAY: "Short day",
 };

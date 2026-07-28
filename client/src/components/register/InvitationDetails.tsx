@@ -47,7 +47,7 @@ export function InvitationDetails({ onContinue }: InvitationDetailsProps) {
         </div>
 
         <button
-          className="mt-6 flex h-12 w-full items-center justify-center gap-3 rounded-lg bg-text text-sm font-extrabold text-surface shadow-md transition hover:-translate-y-px hover:bg-text/85"
+          className="mt-6 flex h-12 w-full items-center justify-center gap-3 rounded-lg bg-text text-sm font-extrabold text-surface shadow-md transition hover:bg-text/85"
           type="button"
           onClick={onContinue}
         >

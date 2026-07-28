@@ -42,22 +42,19 @@ export function EmployeeDashboard({ data }: EmployeeDashboardProps) {
 
       <section className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         <StatCard
-          label="Attendance this month"
+          label="Days present"
           value={`${data.currentMonthAttendanceDays} days`}
           icon={CalendarCheck}
-          tone="success"
         />
         <StatCard
           label="Pending leave"
           value={data.pendingLeaves}
           icon={Clock3}
-          tone="warning"
         />
         <StatCard
-          label="Latest net pay"
+          label="Latest pay"
           value={payslipAmount}
           icon={Banknote}
-          tone="info"
         />
       </section>
 
@@ -66,7 +63,7 @@ export function EmployeeDashboard({ data }: EmployeeDashboardProps) {
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <p className="text-xs font-extrabold tracking-widest text-text-subtle uppercase">
-                Today&apos;s attendance
+                Today&apos;s status
               </p>
               <h2 className="mt-2 text-xl font-extrabold text-text">
                 {attendanceLabel}
@@ -79,13 +76,13 @@ export function EmployeeDashboard({ data }: EmployeeDashboardProps) {
 
           <dl className="mt-8 grid grid-cols-2 gap-4">
             <div className="rounded-lg bg-surface-muted p-4">
-              <dt className="text-xs font-bold text-text-subtle">Check in</dt>
+              <dt className="text-xs font-bold text-text-subtle">Check-in</dt>
               <dd className="mt-2 text-lg font-extrabold text-text">
                 {data.todayAttendance.checkIn ?? "—"}
               </dd>
             </div>
             <div className="rounded-lg bg-surface-muted p-4">
-              <dt className="text-xs font-bold text-text-subtle">Check out</dt>
+              <dt className="text-xs font-bold text-text-subtle">Check-out</dt>
               <dd className="mt-2 text-lg font-extrabold text-text">
                 {data.todayAttendance.checkOut ?? "—"}
               </dd>
@@ -98,29 +95,29 @@ export function EmployeeDashboard({ data }: EmployeeDashboardProps) {
             disabled={data.todayAttendance.status === "CHECKED_IN"}
           >
             <LogIn className="size-5" aria-hidden="true" />
-            {data.todayAttendance.status === "CHECKED_IN" ? "Currently checked in" : "Check in"}
+            {data.todayAttendance.status === "CHECKED_IN" ? "You’re checked in" : "Check in"}
           </button>
         </article>
 
         <article className="rounded-xl border border-border bg-surface p-5 shadow-sm sm:p-6">
           <p className="text-xs font-extrabold tracking-widest text-text-subtle uppercase">
-            Quick access
+            Shortcuts
           </p>
-          <h2 className="mt-2 text-xl font-extrabold text-text">Your workspace</h2>
+          <h2 className="mt-2 text-xl font-extrabold text-text">Common tasks</h2>
           <div className="mt-6 grid gap-3">
             <button
               className="flex items-center gap-4 rounded-lg border border-border p-4 text-left text-sm font-bold text-text transition hover:border-border-strong hover:bg-surface-muted"
               type="button"
             >
               <CalendarCheck className="size-5 text-warning-text" aria-hidden="true" />
-              Request leave
+              Apply for leave
             </button>
             <button
               className="flex items-center gap-4 rounded-lg border border-border p-4 text-left text-sm font-bold text-text transition hover:border-border-strong hover:bg-surface-muted"
               type="button"
             >
               <FileText className="size-5 text-info-text" aria-hidden="true" />
-              View latest payslip
+              View payslips
             </button>
           </div>
         </article>

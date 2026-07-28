@@ -131,6 +131,7 @@ export function Sidebar() {
               className={className}
               key={item.path}
               to={item.path}
+              aria-current={isActive ? "page" : undefined}
               onClick={() => setMobileOpen(false)}
             >
               {content}
@@ -177,7 +178,7 @@ export function Sidebar() {
 
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex w-64 flex-col gap-2 bg-sidebar text-text transition-transform duration-200 lg:translate-x-0",
+          "fixed inset-y-0 left-0 z-50 flex w-64 flex-col gap-2 overflow-y-auto overscroll-contain bg-sidebar text-text transition-transform duration-200 lg:translate-x-0",
           mobileOpen ? "translate-x-0" : "-translate-x-full",
         )}
         aria-label="Main navigation"
